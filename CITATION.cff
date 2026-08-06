@@ -1,0 +1,27 @@
+cff-version: 1.2.0
+title: >-
+  gingiCHARM: a curated reference database and software package
+  for whole-genome characterisation and multi-scheme typing of
+  Porphyromonas gingivalis
+message: If you use gingiCHARM in your work, please cite it as below.
+type: software
+authors:
+  - given-names: Susanth
+    family-names: Alapati
+abstract: >-
+  gingiCHARM (P. gingivalis CHaracterisation, Allele typing and
+  Reference Module) characterises a Porphyromonas gingivalis genome
+  assembly from a single curated reference database: virulence-factor
+  screening, fimA, mfa operon, rag and capsular K-antigen typing, and
+  a functional category for every predicted gene.
+keywords:
+  - Porphyromonas gingivalis
+  - periodontitis
+  - oral anaerobes
+  - bacterial typing
+  - virulence factors
+  - comparative genomics
+license: MIT
+repository-code: https://github.com/YOUR-USERNAME/gingicharm
+version: 1.0.0
+date-released: 2026-08-06

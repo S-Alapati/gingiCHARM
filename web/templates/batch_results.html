@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>gingiCHARM — batch results</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh; padding: 30px 20px;
+    }
+    .container {
+      max-width: 1280px; margin: 0 auto;
+      background: white; border-radius: 14px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+      padding: 36px 44px;
+    }
+    h1 { color: #333; margin-bottom: 4px; }
+    .subtitle { color: #777; margin-bottom: 22px; font-size: 14px; }
+    .subtitle a { color: #667eea; text-decoration: none; }
+    .actions-top { display: flex; gap: 10px; margin-bottom: 22px; flex-wrap: wrap; }
+    .btn {
+      display: inline-block;
+      padding: 10px 18px;
+      background: #f0f3ff; color: #667eea;
+      border-radius: 50px; text-decoration: none;
+      font-weight: 600; font-size: 13px;
+      border: 1px solid #d9deff;
+    }
+    .btn:hover { background: #e3e9ff; }
+    .btn.primary {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white; border: none;
+      box-shadow: 0 4px 12px rgba(102,126,234,0.3);
+    }
+    .table-wrap {
+      overflow-x: auto; margin-bottom: 28px;
+      border: 1px solid #ececec; border-radius: 10px;
+    }
+    table {
+      width: 100%; border-collapse: collapse; font-size: 13px;
+      min-width: 800px;
+    }
+    th, td {
+      padding: 10px 12px;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+    }
+    th {
+      background: #f6f7fc;
+      color: #555; font-weight: 600;
+      text-transform: uppercase;
+      font-size: 11.5px;
+      letter-spacing: 0.4px;
+    }
+    tbody tr:hover { background: #fafbff; }
+    td.genome {
+      font-family: 'SF Mono', Menlo, Consolas, monospace;
+      color: #764ba2; font-weight: 600;
+    }
+    .pill {
+      display: inline-block;
+      padding: 3px 9px; border-radius: 12px;
+      font-size: 11.5px; font-weight: 600;
+      white-space: nowrap;
+    }
+    .pill.untyped { background: #fde7e7; color: #a63030; }
+    .pill.err     { background: #ffe2c4; color: #9a4d00; }
+    .pill.val     { background: #e7f5e7; color: #2c662d; }
+    h2 {
+      color: #444; font-size: 16px;
+      margin: 22px 0 10px; font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Batch results — {{ payload.runs|length }} genomes</h1>
+    <div class="subtitle">
+      Job <code>{{ payload.job_id }}</code> · {{ payload.timestamp }} ·
+      <a href="{{ url_for('analyze') }}">+ new analysis</a>
+      <span style="color:#aaa;"> · </span>
+      <span style="color:#E63F25;font-weight:600;">gingiCHARM by Susanth Alapati</span>
+    </div>
+
+    <div class="actions-top">
+      <a class="btn primary" href="{{ url_for('download_tsv', job_id=payload.job_id, scope='all') }}">
+        ⬇ Download all results (TSV)
+      </a>
+      {% for key in payload.selected %}
+        {% set lbl = modules[key][0] %}
+        <a class="btn" href="{{ url_for('download_tsv', job_id=payload.job_id, scope=key) }}">
+          ⬇ {{ lbl }}
+        </a>
+      {% endfor %}
+    </div>
+
+    {# Build a typing-call summary per genome × module #}
+    <h2>Typing summary</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Genome</th>
+            {% for key in payload.selected %}
+              <th>{{ modules[key][0] }}</th>
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for run in payload.runs %}
+            <tr>
+              <td class="genome">{{ run.genome }}</td>
+              {% for key in payload.selected %}
+                {% set matches = run.jobs | selectattr('key', 'equalto', key) | list %}
+                {% set job = matches[0] if matches else None %}
+                <td>
+                  {% if not job %}
+                    <span class="pill err">missing</span>
+                  {% elif not job.ok %}
+                    <span class="pill err" title="{{ job.error }}">error</span>
+                  {% else %}
+                    {% set call = job.summary %}
+                    {% if call %}
+                      {% for k, v in call.items() %}
+                        <span class="pill {% if v == 'untypeable' or v == 'X' %}untyped{% else %}val{% endif %}"
+                              style="margin: 1px 2px;">{{ k }}: {{ v }}</span>
+                      {% endfor %}
+                    {% else %}
+                      <span class="pill val">{{ job.records|length }} rec</span>
+                    {% endif %}
+                  {% endif %}
+                </td>
+              {% endfor %}
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Per-genome headlines</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Genome</th>
+            <th>Module</th>
+            <th>Headline</th>
+            <th style="text-align:right;">Time</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for run in payload.runs %}
+            {% for j in run.jobs %}
+              <tr>
+                <td class="genome">{{ run.genome }}</td>
+                <td>{{ j.label }}</td>
+                <td>
+                  {% if j.ok %}{{ j.headline or '—' }}
+                  {% else %}<span class="pill err">{{ j.error }}</span>{% endif %}
+                </td>
+                <td style="text-align:right;color:#999;">{{ j.elapsed }} s</td>
+              </tr>
+            {% endfor %}
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>
+</html>

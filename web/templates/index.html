@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>gingiCHARM — analyse</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh; padding: 30px 20px;
+    }
+    .container {
+      max-width: 900px; margin: 0 auto;
+      background: white; border-radius: 14px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+      padding: 36px 44px;
+    }
+    h1 { color: #333; margin-bottom: 4px; }
+    .subtitle { color: #777; margin-bottom: 26px; font-size: 14px; }
+    .subtitle a { color: #667eea; text-decoration: none; }
+    .error {
+      background: #fff5f5; color: #b03030;
+      border-left: 4px solid #e53e3e;
+      padding: 12px 16px; border-radius: 6px;
+      margin-bottom: 22px; font-size: 14px;
+    }
+    section {
+      border: 1px solid #eee;
+      border-radius: 10px;
+      padding: 22px 24px;
+      margin-bottom: 22px;
+    }
+    section h2 {
+      color: #444; font-size: 16px;
+      margin-bottom: 14px; font-weight: 600;
+      letter-spacing: 0.3px;
+    }
+    .filebox {
+      display: block;
+      border: 2px dashed #cfd2f0;
+      border-radius: 10px;
+      padding: 28px;
+      text-align: center;
+      cursor: pointer;
+      transition: background .15s, border-color .15s;
+    }
+    .filebox:hover { background: #f5f7ff; border-color: #667eea; }
+    .filebox .icon { font-size: 36px; margin-bottom: 8px; color: #667eea; }
+    .filebox .hint { color: #888; font-size: 13px; margin-top: 6px; }
+    input[type="file"] { display: none; }
+    #file-list {
+      margin-top: 14px; font-size: 13px; color: #555;
+      max-height: 120px; overflow-y: auto;
+    }
+    #file-list .row { padding: 3px 0; }
+
+    .mod-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .mod {
+      border: 1px solid #e5e5e5;
+      border-radius: 8px;
+      padding: 14px 16px;
+      cursor: pointer;
+      transition: background .15s, border-color .15s;
+    }
+    .mod:hover { background: #f8f9ff; border-color: #c5cdf2; }
+    .mod label {
+      display: flex; align-items: flex-start; gap: 10px;
+      cursor: pointer;
+    }
+    .mod input[type="checkbox"] {
+      margin-top: 3px;
+      width: 16px; height: 16px;
+      accent-color: #667eea;
+    }
+    .mod .name { font-weight: 600; color: #333; font-size: 14px; }
+    .mod .desc { color: #777; font-size: 12.5px; line-height: 1.4; margin-top: 2px; }
+    .mod.selected { background: #f0f3ff; border-color: #667eea; }
+
+    .row-inline {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 14px;
+    }
+    label.field { display: block; }
+    label.field .lbl {
+      display: block; color: #555;
+      font-size: 13px; margin-bottom: 4px;
+    }
+    label.field input {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #ddd; border-radius: 7px;
+      font-size: 14px; font-family: inherit;
+      color: #333;
+    }
+    label.field input:focus {
+      outline: none; border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102,126,234,0.15);
+    }
+    details { margin-top: 8px; }
+    details > summary {
+      cursor: pointer; color: #667eea;
+      font-size: 13px; user-select: none;
+    }
+    details > summary::marker { color: #667eea; }
+    .actions {
+      display: flex; gap: 14px; align-items: center; margin-top: 26px;
+    }
+    button.go {
+      padding: 14px 38px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white; border: none; border-radius: 50px;
+      font-weight: 600; font-size: 15px; cursor: pointer;
+      box-shadow: 0 5px 15px rgba(102,126,234,0.4);
+      transition: transform .15s, box-shadow .15s;
+    }
+    button.go:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(102,126,234,0.5); }
+    a.cancel { color: #888; text-decoration: none; font-size: 14px; }
+    a.cancel:hover { color: #555; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Analyse a <em>P. gingivalis</em> genome</h1>
+    <div class="subtitle">
+      Drop a FASTA, pick the typing modules, and gingiCHARM will do the rest.
+      <span style="color:#aaa;">·</span>
+      <span style="color:#764ba2;font-weight:600;">gingiCHARM by Susanth Alapati</span>
+      <span style="color:#aaa;">·</span>
+      <a href="{{ url_for('welcome') }}">← back</a>
+    </div>
+
+    {% if error %}
+      <div class="error">{{ error }}</div>
+    {% endif %}
+
+    <form method="post" enctype="multipart/form-data" action="{{ url_for('analyze') }}">
+      <section>
+        <h2>1 · Upload genome assembly</h2>
+        <label class="filebox" for="genome">
+          <div class="icon">⬆</div>
+          <div><strong>Click to choose</strong> one or more FASTA files (.fna / .fasta)</div>
+          <div class="hint">Genome assemblies, contigs, CDS or predicted proteins. 200 MB total.</div>
+          <input id="genome" type="file" name="genome" multiple accept=".fna,.fasta,.fa,.faa,.txt" required>
+        </label>
+        <div id="file-list"></div>
+      </section>
+
+      <section>
+        <h2>2 · Pick analyses to run</h2>
+        <div class="mod-grid">
+          {% for key, (label, _, desc) in modules.items() %}
+            <div class="mod">
+              <label>
+                <input type="checkbox" name="modules" value="{{ key }}" checked>
+                <span>
+                  <span class="name">{{ label }}</span>
+                  <div class="desc">{{ desc }}</div>
+                </span>
+              </label>
+            </div>
+          {% endfor %}
+        </div>
+      </section>
+
+      <section>
+        <h2>3 · Search parameters <span style="color:#aaa;font-weight:400;font-size:13px;">(defaults work for most assemblies)</span></h2>
+        <div class="row-inline">
+          <label class="field">
+            <span class="lbl">Minimum identity (%)</span>
+            <input type="number" name="min_identity" value="60" min="50" max="100" step="0.1">
+          </label>
+          <label class="field">
+            <span class="lbl">Minimum coverage (%)</span>
+            <input type="number" name="min_coverage" value="50" min="10" max="100" step="0.1">
+          </label>
+          <label class="field">
+            <span class="lbl">BLAST threads</span>
+            <input type="number" name="threads" value="4" min="1" max="64">
+          </label>
+        </div>
+        <details>
+          <summary>What do these mean?</summary>
+          <div style="color:#666;font-size:13px;line-height:1.6;margin-top:8px;">
+            Identity and coverage are the minimum BLAST hit thresholds applied to every typing scheme.
+            They have to clear both to register. Loosen them if you expect divergent alleles
+            (e.g. environmental isolates); tighten them for high-quality assemblies where you
+            want only confident calls.
+          </div>
+        </details>
+      </section>
+
+      <div class="actions">
+        <button class="go" type="submit">Run analysis →</button>
+        <a class="cancel" href="{{ url_for('welcome') }}">Cancel</a>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    // Show the chosen filenames under the upload box
+    const input = document.getElementById("genome");
+    const list = document.getElementById("file-list");
+    input.addEventListener("change", () => {
+      list.innerHTML = "";
+      for (const f of input.files) {
+        const row = document.createElement("div");
+        row.className = "row";
+        row.textContent = "• " + f.name + " (" + (f.size/1e6).toFixed(2) + " MB)";
+        list.appendChild(row);
+      }
+    });
+
+    // Highlight selected modules
+    document.querySelectorAll(".mod input[type=checkbox]").forEach(cb => {
+      const card = cb.closest(".mod");
+      const sync = () => card.classList.toggle("selected", cb.checked);
+      cb.addEventListener("change", sync);
+      sync();
+    });
+  </script>
+</body>
+</html>
