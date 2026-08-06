@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>gingiCHARM — results</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh; padding: 30px 20px;
+    }
+    .container {
+      max-width: 1100px; margin: 0 auto;
+      background: white; border-radius: 14px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+      padding: 36px 44px;
+    }
+    h1 { color: #333; margin-bottom: 4px; }
+    .subtitle { color: #777; margin-bottom: 22px; font-size: 14px; }
+    .subtitle a { color: #667eea; text-decoration: none; }
+    .meta {
+      background: #f6f7fc; border-radius: 10px;
+      padding: 14px 18px; margin-bottom: 26px;
+      font-size: 13px; color: #555;
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
+    }
+    .meta .lbl { color: #888; font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .meta .val { color: #333; font-weight: 600; font-size: 14px; margin-top: 2px; }
+    .actions-top {
+      display: flex; gap: 10px; margin-bottom: 24px; flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-block;
+      padding: 10px 18px;
+      background: #f0f3ff; color: #667eea;
+      border-radius: 50px; text-decoration: none;
+      font-weight: 600; font-size: 13px;
+      border: 1px solid #d9deff;
+      transition: background .15s;
+    }
+    .btn:hover { background: #e3e9ff; }
+    .btn.primary {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white; border: none;
+      box-shadow: 0 4px 12px rgba(102,126,234,0.3);
+    }
+    .module {
+      border: 1px solid #ececec;
+      border-radius: 10px;
+      margin-bottom: 22px;
+      overflow: hidden;
+    }
+    .module .head {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 20px;
+      background: #fafbff;
+      border-bottom: 1px solid #ececec;
+    }
+    .module .head h2 {
+      color: #333; font-size: 16px; font-weight: 600;
+    }
+    .module .head .ms {
+      font-size: 12px; color: #999;
+    }
+    .headline {
+      padding: 14px 20px;
+      background: #f6f7fc;
+      color: #333; font-weight: 600;
+      border-bottom: 1px solid #ececec;
+    }
+    .headline.warn { background: #fff8e6; color: #8a6d3b; }
+    .summary {
+      padding: 12px 20px;
+      font-size: 13.5px; color: #444;
+      border-bottom: 1px solid #ececec;
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+    }
+    .summary .item { background: #f9f9fc; padding: 8px 12px; border-radius: 7px; }
+    .summary .k { color: #888; font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.4px; }
+    .summary .v { color: #333; font-weight: 600; margin-top: 2px; word-break: break-word; }
+    .table-wrap { padding: 0 20px 18px; overflow-x: auto; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      margin-top: 8px;
+    }
+    th, td {
+      padding: 8px 10px;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+    }
+    th {
+      background: #f6f7fc;
+      color: #555; font-weight: 600;
+      text-transform: uppercase;
+      font-size: 11.5px;
+      letter-spacing: 0.4px;
+      position: sticky; top: 0;
+    }
+    tr:hover { background: #fafbff; }
+    .empty { color: #999; font-size: 13px; padding: 12px 20px; }
+    .err {
+      padding: 14px 20px;
+      background: #fff5f5; color: #b03030;
+      border-left: 4px solid #e53e3e;
+    }
+    .pill {
+      display: inline-block;
+      padding: 3px 9px; border-radius: 12px;
+      font-size: 11.5px; font-weight: 600;
+    }
+    .pill.ok { background: #e7f5e7; color: #2c662d; }
+    .pill.err { background: #fde7e7; color: #a63030; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    {% set run = payload.runs[0] %}
+    <h1>Results — <span style="color:#764ba2">{{ run.genome }}</span></h1>
+    <div class="subtitle">
+      Job <code>{{ payload.job_id }}</code> · {{ payload.timestamp }} ·
+      <a href="{{ url_for('analyze') }}">+ new analysis</a>
+      <span style="color:#aaa;"> · </span>
+      <span style="color:#E63F25;font-weight:600;">gingiCHARM by Susanth Alapati</span>
+    </div>
+
+    <div class="meta">
+      <div><div class="lbl">Modules run</div><div class="val">{{ payload.selected|length }}</div></div>
+      <div><div class="lbl">Min identity</div><div class="val">{{ payload.min_identity }}%</div></div>
+      <div><div class="lbl">Min coverage</div><div class="val">{{ payload.min_coverage }}%</div></div>
+      <div><div class="lbl">Threads</div><div class="val">{{ payload.threads }}</div></div>
+    </div>
+
+    <div class="actions-top">
+      <a class="btn primary" href="{{ url_for('download_tsv', job_id=payload.job_id, scope='all') }}">
+        ⬇ Download all results (TSV)
+      </a>
+      {% for j in run.jobs if j.ok %}
+        <a class="btn" href="{{ url_for('download_tsv', job_id=payload.job_id, scope=j.key) }}">
+          ⬇ {{ j.label }}
+        </a>
+      {% endfor %}
+    </div>
+
+    {% for j in run.jobs %}
+      <div class="module">
+        <div class="head">
+          <h2>
+            {{ j.label }}
+            {% if j.ok %}
+              <span class="pill ok">ok</span>
+            {% else %}
+              <span class="pill err">error</span>
+            {% endif %}
+          </h2>
+          <div class="ms">{{ j.elapsed }} s</div>
+        </div>
+
+        {% if not j.ok %}
+          <div class="err">{{ j.error }}</div>
+        {% else %}
+          {% if j.headline %}
+            <div class="headline {% if 'untypeable' in j.headline or 'WARNING' in j.headline %}warn{% endif %}">
+              {{ j.headline }}
+            </div>
+          {% endif %}
+          {% if j.summary %}
+            <div class="summary">
+              {% for k, v in j.summary.items() %}
+                <div class="item"><div class="k">{{ k.replace('_',' ') }}</div><div class="v">{{ v }}</div></div>
+              {% endfor %}
+            </div>
+          {% endif %}
+          <div class="table-wrap">
+            {% if j.records %}
+              <table>
+                <thead>
+                  <tr>{% for col in j.columns %}<th>{{ col }}</th>{% endfor %}</tr>
+                </thead>
+                <tbody>
+                  {% for rec in j.records[:200] %}
+                    <tr>{% for col in j.columns %}<td>{{ rec.get(col, '') }}</td>{% endfor %}</tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+              {% if j.records|length > 200 %}
+                <div class="empty">Showing 200 of {{ j.records|length }} rows — download the TSV for the full table.</div>
+              {% endif %}
+            {% else %}
+              <div class="empty">No hits above the thresholds.</div>
+            {% endif %}
+          </div>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+</body>
+</html>

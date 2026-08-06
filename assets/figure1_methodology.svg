@@ -1,0 +1,350 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1240 1080" width="1240" height="1080" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif">
+
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#8a7f76"/>
+    </marker>
+    <marker id="ag" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#486B5A"/>
+    </marker>
+    <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#E63F25"/>
+    </marker>
+    <filter id="sh" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3.5" flood-color="#4a2e35" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+
+  <rect width="1240" height="1080" fill="#FFFDF9"/>
+
+  <!-- =================== PANEL A =================== -->
+  <text x="44" y="42" font-size="19" font-weight="700" fill="#2A1B1F">A</text>
+  <text x="68" y="42" font-size="15" font-weight="600" fill="#2A1B1F">Reference database construction</text>
+  <line x1="44" y1="54" x2="1196" y2="54" stroke="#e6ded4" stroke-width="1.6"/>
+
+  <!-- 5 genomes -->
+  <g transform="translate(44,74)">
+    <text x="0" y="12" font-size="10.5" font-weight="700" fill="#8a7f76" letter-spacing="0.8">FIVE COMPLETE GENOMES</text>
+    <g font-size="9.5">
+      <g transform="translate(0,24)">
+        <rect width="176" height="26" rx="5" fill="#fff" stroke="#d9cec2" stroke-width="1.3"/>
+        <text x="10" y="17" font-weight="600" fill="#2A1B1F">ATCC 33277</text>
+        <text x="96" y="17" font-family="SF Mono, Menlo, monospace" font-size="8.5" fill="#a09488">AP009380.1</text>
+      </g>
+      <g transform="translate(0,56)">
+        <rect width="176" height="26" rx="5" fill="#fff" stroke="#d9cec2" stroke-width="1.3"/>
+        <text x="10" y="17" font-weight="600" fill="#2A1B1F">W83</text>
+        <text x="96" y="17" font-family="SF Mono, Menlo, monospace" font-size="8.5" fill="#a09488">AE015924.1</text>
+      </g>
+      <g transform="translate(0,88)">
+        <rect width="176" height="26" rx="5" fill="#fff" stroke="#d9cec2" stroke-width="1.3"/>
+        <text x="10" y="17" font-weight="600" fill="#2A1B1F">TDC60</text>
+        <text x="96" y="17" font-family="SF Mono, Menlo, monospace" font-size="8.5" fill="#a09488">AP012203.1</text>
+      </g>
+      <g transform="translate(0,120)">
+        <rect width="176" height="26" rx="5" fill="#fff" stroke="#d9cec2" stroke-width="1.3"/>
+        <text x="10" y="17" font-weight="600" fill="#2A1B1F">A7436</text>
+        <text x="96" y="17" font-family="SF Mono, Menlo, monospace" font-size="8.5" fill="#a09488">CP011995.1</text>
+      </g>
+      <g transform="translate(0,152)">
+        <rect width="176" height="26" rx="5" fill="#fff" stroke="#d9cec2" stroke-width="1.3"/>
+        <text x="10" y="17" font-weight="600" fill="#2A1B1F">AJW4</text>
+        <text x="96" y="17" font-family="SF Mono, Menlo, monospace" font-size="8.5" fill="#a09488">CP011996.1</text>
+      </g>
+    </g>
+  </g>
+
+  <line x1="228" y1="176" x2="266" y2="176" stroke="#8a7f76" stroke-width="2" marker-end="url(#a)"/>
+
+  <!-- Bakta -->
+  <g transform="translate(272,128)">
+    <rect width="150" height="96" rx="7" fill="#F4EFE6" stroke="#CBB175" stroke-width="1.6"/>
+    <text x="14" y="24" font-size="12" font-weight="700" fill="#486B5A">Bakta v1.9</text>
+    <text x="14" y="42" font-size="9.5" fill="#6b6058">--full mode</text>
+    <text x="14" y="58" font-size="9.5" fill="#6b6058">CDS · products · Pfam</text>
+    <text x="14" y="74" font-size="9.5" fill="#6b6058">UniRef90 back-links</text>
+    <text x="14" y="88" font-size="8.5" fill="#a09488">Pg-aware gene naming</text>
+  </g>
+
+  <line x1="428" y1="176" x2="466" y2="176" stroke="#8a7f76" stroke-width="2" marker-end="url(#a)"/>
+
+  <!-- MMseqs2 -->
+  <g transform="translate(472,128)">
+    <rect width="150" height="96" rx="7" fill="#F4EFE6" stroke="#CBB175" stroke-width="1.6"/>
+    <text x="14" y="24" font-size="12" font-weight="700" fill="#486B5A">MMseqs2</text>
+    <text x="14" y="42" font-size="9.5" fill="#6b6058">easy-cluster</text>
+    <text x="14" y="58" font-size="9.5" fill="#6b6058">80% identity</text>
+    <text x="14" y="74" font-size="9.5" fill="#6b6058">80% coverage</text>
+    <text x="14" y="88" font-size="8.5" fill="#a09488">piloted 70/70 · 90/90</text>
+  </g>
+
+  <line x1="628" y1="176" x2="666" y2="176" stroke="#8a7f76" stroke-width="2" marker-end="url(#a)"/>
+
+  <!-- gene families -->
+  <g transform="translate(672,116)">
+    <rect width="168" height="120" rx="7" fill="#fff" stroke="#73A38B" stroke-width="1.8"/>
+    <text x="14" y="26" font-size="24" font-weight="700" fill="#486B5A">2,616</text>
+    <text x="14" y="42" font-size="10" fill="#6b6058">non-redundant families</text>
+    <line x1="14" y1="54" x2="154" y2="54" stroke="#e6ded4" stroke-width="1.3"/>
+    <text x="14" y="72" font-size="15" font-weight="700" fill="#2A1B1F">1,476</text>
+    <text x="62" y="72" font-size="9" fill="#6b6058">core (5/5 strains)</text>
+    <text x="14" y="92" font-size="15" font-weight="700" fill="#8a7f76">1,140</text>
+    <text x="62" y="92" font-size="9" fill="#6b6058">shell / strain-specific</text>
+    <text x="14" y="110" font-size="8.5" fill="#a09488">stable PgCG_NNNNN IDs</text>
+  </g>
+
+  <!-- plus VF + typing refs, merging into DB -->
+  <g transform="translate(672,254)">
+    <rect width="168" height="40" rx="6" fill="#fff" stroke="#803348" stroke-width="1.5"/>
+    <text x="14" y="18" font-size="10.5" font-weight="700" fill="#803348">154 VF families</text>
+    <text x="14" y="32" font-size="9" fill="#6b6058">192 alleles · VFDB + literature</text>
+  </g>
+  <g transform="translate(672,302)">
+    <rect width="168" height="40" rx="6" fill="#fff" stroke="#B85C43" stroke-width="1.5"/>
+    <text x="14" y="18" font-size="10.5" font-weight="700" fill="#B85C43">44 typing references</text>
+    <text x="14" y="32" font-size="9" fill="#6b6058">fimA · mfa · rag · K-antigen</text>
+  </g>
+
+  <path d="M 848 176 h 26 v 82" fill="none" stroke="#E63F25" stroke-width="2"/>
+  <path d="M 848 274 h 26" fill="none" stroke="#E63F25" stroke-width="2"/>
+  <path d="M 848 322 h 26 v -48" fill="none" stroke="#E63F25" stroke-width="2"/>
+  <line x1="874" y1="274" x2="906" y2="274" stroke="#E63F25" stroke-width="2.4" marker-end="url(#ar)"/>
+
+  <!-- unified DB -->
+  <g transform="translate(912,196)">
+    <rect width="240" height="156" rx="9" fill="#2A1B1F" filter="url(#sh)"/>
+    <text x="20" y="30" font-size="11" font-weight="700" fill="#DE7226" letter-spacing="0.8">UNIFIED REFERENCE DATABASE</text>
+    <text x="20" y="66" font-size="30" font-weight="700" fill="#FFFDF9">3,388</text>
+    <text x="118" y="66" font-size="11" fill="#c9bdaf">records</text>
+    <line x1="20" y1="80" x2="220" y2="80" stroke="#4a3b3f" stroke-width="1.2"/>
+    <g font-size="9.5" fill="#c9bdaf">
+      <text x="20" y="99">Single BLAST index (nucl + prot)</text>
+      <text x="20" y="115">Per-record provenance: strain, locus,</text>
+      <text x="20" y="129">UniRef90, evidence tier</text>
+      <text x="20" y="145" fill="#8fd18f">Ships inside the package</text>
+    </g>
+  </g>
+
+  <!-- =================== PANEL B =================== -->
+  <text x="44" y="404" font-size="19" font-weight="700" fill="#2A1B1F">B</text>
+  <text x="68" y="404" font-size="15" font-weight="600" fill="#2A1B1F">Functional category assignment — four-tier cascade</text>
+  <line x1="44" y1="416" x2="1196" y2="416" stroke="#e6ded4" stroke-width="1.6"/>
+
+  <text x="44" y="440" font-size="10.5" fill="#6b6058">Each gene family enters at tier 1. The first tier that fires assigns the category; the winning tier is recorded per family.</text>
+
+  <g transform="translate(44,454)">
+    <!-- tier 1 -->
+    <g>
+      <rect width="228" height="92" rx="8" fill="#fff" stroke="#486B5A" stroke-width="2" filter="url(#sh)"/>
+      <rect width="228" height="24" rx="8" fill="#486B5A"/>
+      <rect y="16" width="228" height="8" fill="#486B5A"/>
+      <text x="14" y="17" font-size="10.5" font-weight="700" fill="#fff">TIER 1 · Pg-specific markers</text>
+      <text x="14" y="44" font-size="9.5" fill="#6b6058">Curated gene/product name list:</text>
+      <text x="14" y="59" font-size="9" font-family="SF Mono, Menlo, monospace" fill="#486B5A">rgpA rgpB kgp · porK porL sov</text>
+      <text x="14" y="73" font-size="9" font-family="SF Mono, Menlo, monospace" fill="#486B5A">hmuY · fimA · mfa1–5 · ragAB</text>
+      <text x="14" y="86" font-size="8.5" fill="#a09488">catches the Pg virulence core</text>
+    </g>
+    <line x1="234" y1="46" x2="266" y2="46" stroke="#486B5A" stroke-width="2" marker-end="url(#ag)"/>
+    <!-- tier 2 -->
+    <g transform="translate(272,0)">
+      <rect width="228" height="92" rx="8" fill="#fff" stroke="#73A38B" stroke-width="2" filter="url(#sh)"/>
+      <rect width="228" height="24" rx="8" fill="#73A38B"/>
+      <rect y="16" width="228" height="8" fill="#73A38B"/>
+      <text x="14" y="17" font-size="10.5" font-weight="700" fill="#fff">TIER 2 · keyword + Pfam rules</text>
+      <text x="14" y="44" font-size="9.5" fill="#6b6058">Conservative rule table:</text>
+      <text x="14" y="59" font-size="9" fill="#486B5A">"ribosomal protein" → Genetic info</text>
+      <text x="14" y="73" font-size="9" fill="#486B5A">"TonB-dependent" → Heme &amp; ion</text>
+      <text x="14" y="86" font-size="8.5" fill="#a09488">term must be definitive to fire</text>
+    </g>
+    <line x1="506" y1="46" x2="538" y2="46" stroke="#486B5A" stroke-width="2" marker-end="url(#ag)"/>
+    <!-- tier 3 -->
+    <g transform="translate(544,0)">
+      <rect width="228" height="92" rx="8" fill="#fff" stroke="#CBB175" stroke-width="2" filter="url(#sh)"/>
+      <rect width="228" height="24" rx="8" fill="#CBB175"/>
+      <rect y="16" width="228" height="8" fill="#CBB175"/>
+      <text x="14" y="17" font-size="10.5" font-weight="700" fill="#2A1B1F">TIER 3 · COG mapping</text>
+      <text x="14" y="44" font-size="9.5" fill="#6b6058">COG letter → category:</text>
+      <text x="14" y="59" font-size="9" font-family="SF Mono, Menlo, monospace" fill="#8a6d1f">J → Genetic info processing</text>
+      <text x="14" y="73" font-size="9" font-family="SF Mono, Menlo, monospace" fill="#8a6d1f">M → Cell envelope</text>
+      <text x="14" y="86" font-size="8.5" fill="#a09488">functional evidence, no Pg marker</text>
+    </g>
+    <line x1="778" y1="46" x2="810" y2="46" stroke="#486B5A" stroke-width="2" marker-end="url(#ag)"/>
+    <!-- tier 4 -->
+    <g transform="translate(816,0)">
+      <rect width="228" height="92" rx="8" fill="#fff" stroke="#c9bdaf" stroke-width="2" filter="url(#sh)"/>
+      <rect width="228" height="24" rx="8" fill="#c9bdaf"/>
+      <rect y="16" width="228" height="8" fill="#c9bdaf"/>
+      <text x="14" y="17" font-size="10.5" font-weight="700" fill="#2A1B1F">TIER 4 · default</text>
+      <text x="14" y="48" font-size="11" font-weight="600" fill="#6b6058">Uncharacterized Proteins</text>
+      <text x="14" y="66" font-size="9" fill="#a09488">hypothetical · DUF · no informative</text>
+      <text x="14" y="79" font-size="9" fill="#a09488">homolog anywhere</text>
+    </g>
+  </g>
+
+  <!-- swissprot verification -->
+  <g transform="translate(44,562)">
+    <rect width="1000" height="58" rx="8" fill="#F4EFE6" stroke="#e0d5c8" stroke-width="1.4"/>
+    <text x="18" y="24" font-size="11" font-weight="700" fill="#803348">VERIFICATION · blastp vs UniProtKB/Swiss-Prot</text>
+    <text x="18" y="42" font-size="9.5" fill="#6b6058">Informative-name filter excludes UPF/DUF/hypothetical hits that cannot confirm or refute a call. Disagreements reviewed by hand.</text>
+    <g transform="translate(772,14)">
+      <rect width="212" height="32" rx="6" fill="#fff" stroke="#803348" stroke-width="1.4"/>
+      <text x="12" y="21" font-size="16" font-weight="700" fill="#803348">22</text>
+      <text x="38" y="21" font-size="9.5" fill="#6b6058">mislabels found &amp; corrected</text>
+    </g>
+  </g>
+  <text x="44" y="638" font-size="10" fill="#a09488">Ten categories cover every gene — GO and KEGG annotate under half the P. gingivalis genome, so enrichment analyses run on the full genome rather than an annotated subset.</text>
+
+  <!-- =================== PANEL C =================== -->
+  <text x="44" y="686" font-size="19" font-weight="700" fill="#2A1B1F">C</text>
+  <text x="68" y="686" font-size="15" font-weight="600" fill="#2A1B1F">Typing scheme reference panels</text>
+  <line x1="44" y1="698" x2="1196" y2="698" stroke="#e6ded4" stroke-width="1.6"/>
+
+  <g transform="translate(44,714)" font-size="9.5">
+    <!-- fimA -->
+    <g>
+      <rect width="272" height="120" rx="8" fill="#fff" stroke="#e0d5c8" stroke-width="1.4" filter="url(#sh)"/>
+      <rect width="6" height="120" rx="3" fill="#B85C43"/>
+      <text x="18" y="24" font-size="12" font-weight="700" fill="#2A1B1F">fimA</text>
+      <text x="70" y="24" font-size="9" fill="#a09488">5 records · types I–V</text>
+      <g fill="#6b6058">
+        <text x="18" y="44">I — ATCC 33277</text>
+        <text x="18" y="59">II — TDC60</text>
+        <text x="18" y="74">III — ATCC 49417</text>
+        <text x="152" y="44">IV — W83</text>
+        <text x="152" y="59">V — HNA99 (AB795792)</text>
+      </g>
+      <text x="18" y="96" font-size="8.5" fill="#73A38B">✓ all published types covered</text>
+      <text x="18" y="110" font-size="8.5" fill="#a09488">cross-checked by in-silico PCR</text>
+    </g>
+    <!-- mfa -->
+    <g transform="translate(286,0)">
+      <rect width="272" height="120" rx="8" fill="#fff" stroke="#e0d5c8" stroke-width="1.4" filter="url(#sh)"/>
+      <rect width="6" height="120" rx="3" fill="#486B5A"/>
+      <text x="18" y="24" font-size="12" font-weight="700" fill="#2A1B1F">mfa operon</text>
+      <text x="112" y="24" font-size="9" fill="#a09488">18 records · mfa1–mfa5</text>
+      <g fill="#6b6058">
+        <text x="18" y="44">mfa1 — 53 · 70A · 70B</text>
+        <text x="18" y="59">mfa2/3/4 — 53 · 70</text>
+        <text x="18" y="74">mfa5 — A1 A2 B C D E</text>
+      </g>
+      <text x="18" y="96" font-size="8.5" fill="#73A38B">✓ all five components typed</text>
+      <text x="18" y="110" font-size="8.5" fill="#a09488">absent gene reported as X (unknown)</text>
+    </g>
+    <!-- rag -->
+    <g transform="translate(572,0)">
+      <rect width="272" height="120" rx="8" fill="#fff" stroke="#e0d5c8" stroke-width="1.4" filter="url(#sh)"/>
+      <rect width="6" height="120" rx="3" fill="#CBB175"/>
+      <text x="18" y="24" font-size="12" font-weight="700" fill="#2A1B1F">rag</text>
+      <text x="60" y="24" font-size="9" fill="#a09488">8 records · 4 ragA + 4 ragB</text>
+      <g fill="#6b6058">
+        <text x="18" y="44">rag-1 — W83, ATCC 49417</text>
+        <text x="18" y="59">rag-2 — HG1691</text>
+        <text x="18" y="74">rag-3 — A7436</text>
+        <text x="18" y="89">rag-4 — ATCC 33277, TDC60</text>
+      </g>
+      <text x="18" y="110" font-size="8.5" fill="#73A38B">✓ every Hanley/Hall allele covered</text>
+    </g>
+    <!-- K antigen -->
+    <g transform="translate(858,0)">
+      <rect width="272" height="120" rx="8" fill="#fff" stroke="#e0d5c8" stroke-width="1.4" filter="url(#sh)"/>
+      <rect width="6" height="120" rx="3" fill="#F39C12"/>
+      <text x="18" y="24" font-size="12" font-weight="700" fill="#2A1B1F">K-antigen</text>
+      <text x="104" y="24" font-size="9" fill="#a09488">13 regions + 390 genes</text>
+      <g fill="#6b6058">
+        <text x="18" y="44">K1 — W83, A7436</text>
+        <text x="18" y="59">K3 — A7A1-28</text>
+        <text x="18" y="74">K4 — ATCC 49417</text>
+        <text x="152" y="59">K6 — HG1691</text>
+        <text x="152" y="74">K− — ATCC 33277</text>
+      </g>
+      <text x="18" y="96" font-size="8.5" fill="#B85C43">K2 · K5 · K7 — no complete genome</text>
+      <text x="18" y="110" font-size="8.5" fill="#a09488">deposited for reference strains</text>
+    </g>
+  </g>
+
+  <text x="44" y="856" font-size="10" fill="#a09488">All schemes rank hits by identity × coverage, never raw bitscore — a long low-identity reference cannot outscore a short exact match.</text>
+
+  <!-- =================== PANEL D =================== -->
+  <text x="44" y="900" font-size="19" font-weight="700" fill="#2A1B1F">D</text>
+  <text x="68" y="900" font-size="15" font-weight="600" fill="#2A1B1F">Software implementation</text>
+  <line x1="44" y1="912" x2="1196" y2="912" stroke="#e6ded4" stroke-width="1.6"/>
+
+  <!-- shared core -->
+  <g transform="translate(44,930)">
+    <rect width="216" height="118" rx="8" fill="#2A1B1F" filter="url(#sh)"/>
+    <text x="16" y="26" font-size="12" font-weight="700" fill="#DE7226" font-family="SF Mono, Menlo, monospace">pgcore</text>
+    <text x="16" y="44" font-size="9.5" fill="#c9bdaf">shared BLAST wrapper</text>
+    <g font-size="9" fill="#8fd18f" font-family="SF Mono, Menlo, monospace">
+      <text x="16" y="64">screen()</text>
+      <text x="16" y="79">resolve_loci()</text>
+      <text x="16" y="94">Result / run_cli()</text>
+    </g>
+    <text x="16" y="110" font-size="8.5" fill="#8a7f76">bundled DB + BLAST indexes</text>
+  </g>
+
+  <line x1="266" y1="989" x2="298" y2="989" stroke="#8a7f76" stroke-width="2" marker-end="url(#a)"/>
+
+  <!-- six modules -->
+  <g transform="translate(304,930)" font-family="SF Mono, Menlo, monospace" font-size="10">
+    <g>
+      <rect width="128" height="34" rx="6" fill="#fff" stroke="#803348" stroke-width="1.5"/>
+      <text x="12" y="21" fill="#803348" font-weight="700">pgvfdb</text>
+    </g>
+    <g transform="translate(136,0)">
+      <rect width="128" height="34" rx="6" fill="#fff" stroke="#B85C43" stroke-width="1.5"/>
+      <text x="12" y="21" fill="#B85C43" font-weight="700">fimtyping</text>
+    </g>
+    <g transform="translate(272,0)">
+      <rect width="128" height="34" rx="6" fill="#fff" stroke="#486B5A" stroke-width="1.5"/>
+      <text x="12" y="21" fill="#486B5A" font-weight="700">mfatyping</text>
+    </g>
+    <g transform="translate(0,42)">
+      <rect width="128" height="34" rx="6" fill="#fff" stroke="#CBB175" stroke-width="1.5"/>
+      <text x="12" y="21" fill="#8a6d1f" font-weight="700">ragtyping</text>
+    </g>
+    <g transform="translate(136,42)">
+      <rect width="128" height="34" rx="6" fill="#fff" stroke="#F39C12" stroke-width="1.5"/>
+      <text x="12" y="21" fill="#b9770e" font-weight="700">kantigen</text>
+    </g>
+    <g transform="translate(272,42)">
+      <rect width="128" height="34" rx="6" fill="#fff" stroke="#667eea" stroke-width="1.5"/>
+      <text x="12" y="21" fill="#4a5bcc" font-weight="700">pgfunc</text>
+    </g>
+    <text x="0" y="100" font-family="Segoe UI, Arial, sans-serif" font-size="9.5" fill="#a09488">Six thin wrappers · each importable and each a console command</text>
+  </g>
+
+  <line x1="716" y1="989" x2="748" y2="989" stroke="#E63F25" stroke-width="2.4" marker-end="url(#ar)"/>
+
+  <!-- three access routes -->
+  <g transform="translate(754,930)">
+    <g>
+      <rect width="200" height="34" rx="6" fill="#F4EFE6" stroke="#e0d5c8" stroke-width="1.3"/>
+      <text x="14" y="22" font-size="10.5" font-weight="700" fill="#486B5A">Command line</text>
+    </g>
+    <g transform="translate(0,42)">
+      <rect width="200" height="34" rx="6" fill="#F4EFE6" stroke="#e0d5c8" stroke-width="1.3"/>
+      <text x="14" y="22" font-size="10.5" font-weight="700" fill="#486B5A">Python API</text>
+    </g>
+    <g transform="translate(0,84)">
+      <rect width="200" height="34" rx="6" fill="#F4EFE6" stroke="#e0d5c8" stroke-width="1.3"/>
+      <text x="14" y="22" font-size="10.5" font-weight="700" fill="#486B5A">Browser GUI (Flask)</text>
+    </g>
+  </g>
+
+  <!-- runtime box -->
+  <g transform="translate(978,930)">
+    <rect width="218" height="118" rx="8" fill="#fff" stroke="#73A38B" stroke-width="1.8"/>
+    <text x="16" y="24" font-size="10.5" font-weight="700" fill="#8a7f76" letter-spacing="0.6">RUNTIME</text>
+    <text x="16" y="48" font-size="9.5" fill="#6b6058">Python 3.8+ · NCBI BLAST+ only</text>
+    <text x="16" y="65" font-size="9.5" fill="#6b6058">Linux and macOS</text>
+    <text x="16" y="82" font-size="9.5" fill="#6b6058">Installer fetches BLAST+, sets up venv</text>
+    <text x="16" y="104" font-size="14" font-weight="700" fill="#486B5A">&lt; 1 min</text>
+    <text x="82" y="104" font-size="9.5" fill="#a09488">per genome, 4 threads</text>
+  </g>
+
+  <!-- validation footer -->
+  <line x1="44" y1="1062" x2="1196" y2="1062" stroke="#e6ded4" stroke-width="1.4"/>
+  <text x="44" y="1076" font-size="9.5" fill="#a09488">
+    Validation: 12 reference-typed genomes, every scheme returned the expected call; fimA independently confirmed by in-silico PCR with published typing primers.
+  </text>
+</svg>

@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pgtoolkit"
+version = "1.0.0"
+description = "Porphyromonas gingivalis genomic analysis toolkit — virulence-factor screening, fimA/mfa1/rag/K-antigen typing and functional-category assignment."
+readme = "README.md"
+requires-python = ">=3.8"
+license = {text = "MIT"}
+authors = [{name = "Pg Unified Database project"}]
+keywords = ["porphyromonas", "gingivalis", "virulence", "typing", "bioinformatics"]
+dependencies = []
+
+[project.optional-dependencies]
+pandas = ["pandas>=1.0"]
+
+[project.scripts]
+pgvfdb    = "pgvfdb.cli:main"
+fimtyping = "fimtyping.cli:main"
+mfatyping = "mfatyping.cli:main"
+ragtyping = "ragtyping.cli:main"
+kantigen  = "kantigen.cli:main"
+pgfunc    = "pgfunc.cli:main"
+pgtoolkit-info = "pgcore.cli:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+pgcore = [
+    "data/Pg_unified_annotation.tsv",
+    "data/blast_db/*",
+    "data/sequences/*",
+]

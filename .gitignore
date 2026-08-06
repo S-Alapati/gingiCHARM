@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+env/
+
+# Installer artefacts
+blast/
+ncbi-blast*/
+
+# Web GUI runtime
+web/uploads/*
+web/results/*
+!web/uploads/.gitkeep
+!web/results/.gitkeep
+
+# Working backups
+*.bak
+*.pre_*.bak
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.Rhistory
+.idea/
+.vscode/
+*.swp

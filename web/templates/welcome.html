@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>gingiCHARM</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #4a2e35 0%, #764ba2 50%, #667eea 100%);
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      padding: 20px;
+    }
+    .card {
+      max-width: 620px; width: 100%;
+      background: #FFFDF9;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      padding: 44px 50px 46px;
+      text-align: center;
+      animation: fadeIn .5s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .logo {
+      display: block; margin: 0 auto 6px;
+      width: 200px; height: 200px;
+    }
+    h1 {
+      color: #E63F25;
+      font-size: 34px; letter-spacing: -0.5px;
+      margin-bottom: 4px; font-weight: 700;
+    }
+    h1 .charm { color: #DE7226; }
+    .author {
+      color: #666; font-size: 13px; font-weight: 500;
+      letter-spacing: 0.3px; margin-bottom: 10px;
+    }
+    .author .by { color: #aaa; font-weight: 400; margin-right: 4px; }
+    .organism {
+      font-style: italic; color: #486B5A;
+      font-size: 15px; margin-bottom: 8px;
+    }
+    .tagline {
+      color: #888; font-size: 12.5px; letter-spacing: 0.5px;
+      text-transform: uppercase; margin-bottom: 22px;
+    }
+    .sub {
+      color: #555; margin-bottom: 26px;
+      font-size: 15px; line-height: 1.55;
+      max-width: 480px; margin-left: auto; margin-right: auto;
+    }
+    .modules {
+      text-align: left; margin: 0 auto 28px; max-width: 440px;
+      color: #444; font-size: 14px;
+      background: #F4EFE6;
+      padding: 18px 24px;
+      border-radius: 12px;
+    }
+    .modules li { padding: 4px 0; list-style: none; }
+    .modules .mod-name {
+      color: #486B5A; font-weight: 600;
+      font-family: "SF Mono", Menlo, Consolas, monospace;
+      font-size: 13px;
+    }
+    .btn {
+      display: inline-block;
+      padding: 14px 40px;
+      background: linear-gradient(135deg, #E63F25 0%, #DE7226 100%);
+      color: white;
+      text-decoration: none;
+      border-radius: 50px;
+      font-weight: 600; font-size: 15px;
+      box-shadow: 0 5px 15px rgba(230,63,37,0.35);
+      transition: transform .15s, box-shadow .15s;
+    }
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(230,63,37,0.45);
+    }
+    .foot { margin-top: 22px; color: #999; font-size: 12px; }
+    .foot code { background: #F4EFE6; padding: 1px 5px; border-radius: 3px; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <img class="logo" src="{{ url_for('static', filename='gingicharm_logo.svg') }}" alt="gingiCHARM logo">
+    <h1>gingi<span class="charm">CHARM</span></h1>
+    <div class="author"><span class="by">by</span>Susanth Alapati</div>
+    <div class="organism">Porphyromonas gingivalis</div>
+    <div class="tagline">CHaracterisation · Allele typing · Reference Module</div>
+    <p class="sub">
+      Characterise a <em>P. gingivalis</em> genome assembly in one pass —
+      virulence factors, functional categories, and full
+      fimA / mfa / rag / K-antigen typing — from a curated reference database.
+    </p>
+    <ul class="modules">
+      <li><span class="mod-name">pgvfdb</span> &nbsp;virulence-factor screening</li>
+      <li><span class="mod-name">fimtyping</span> &nbsp;fimA type (I–V)</li>
+      <li><span class="mod-name">mfatyping</span> &nbsp;mfa1/2/3/4/5 operon profile</li>
+      <li><span class="mod-name">ragtyping</span> &nbsp;rag pathogenicity-island type</li>
+      <li><span class="mod-name">kantigen</span> &nbsp;capsular K-antigen serotype</li>
+      <li><span class="mod-name">pgfunc</span> &nbsp;functional category per gene</li>
+    </ul>
+    <a class="btn" href="{{ url_for('analyze') }}">Start an analysis →</a>
+    <div class="foot">Built on the <code>pgtoolkit</code> Python package.</div>
+  </div>
+</body>
+</html>
