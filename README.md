@@ -56,7 +56,7 @@ Python 3.8 or newer. The first install needs internet access to fetch NCBI
 BLAST+, the one external dependency.
 
 ```bash
-git clone https://github.com/YOUR-USERNAME/gingicharm.git
+git clone https://github.com/S-Alapati/gingicharm.git
 cd gingicharm
 bash install.sh
 ```
