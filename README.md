@@ -26,7 +26,7 @@ the staphylococci all have dedicated typing servers, and the general typing
 platforms inherit their reference sets from those species. *P. gingivalis* is
 in none of them. Typing an isolate today means reading four separate typing
 literatures, pulling reference alleles out of papers published between 1998 and
-2023, and writing a script per scheme — then repeating it genome by genome.
+2025, and writing a script per scheme — then repeating it genome by genome.
 Most groups skip it.
 
 gingiCHARM makes it one command.
