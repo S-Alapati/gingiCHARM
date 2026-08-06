@@ -1,0 +1,49 @@
+{
+  "title": "gingiCHARM: a curated reference database and software package for whole-genome characterisation and multi-scheme typing of Porphyromonas gingivalis",
+  "version": "1.0.0",
+  "upload_type": "software",
+  "language": "eng",
+  "license": "MIT",
+  "access_right": "restricted",
+  "access_conditions": "Access is restricted during peer review. The repository will be made openly available on publication of the accompanying paper. Reviewers and editors should use the secret link supplied with the manuscript.",
+  "creators": [
+    {
+      "name": "Alapati, Susanth",
+      "affiliation": "AFFILIATION TO BE COMPLETED",
+      "orcid": "0000-0000-0000-0000"
+    }
+  ],
+  "description": "<p><strong>gingiCHARM</strong> &mdash; <em>P. <strong>gingi</strong>valis <strong>CH</strong>aracterisation, <strong>A</strong>llele typing and <strong>R</strong>eference <strong>M</strong>odule</p><p>Falling sequencing costs have made whole-genome sequencing of oral anaerobes routine, but <em>Porphyromonas gingivalis</em> is absent from the typing platforms and virulence databases built around model organisms such as <em>Escherichia coli</em>, the streptococci and the staphylococci. Characterising a new <em>P. gingivalis</em> genome currently means assembling reference alleles by hand from four separate typing literatures published between 1998 and 2023, and writing a bespoke script for each scheme, repeated once per genome.</p><p>gingiCHARM provides a single curated reference database of 3,388 records together with six analysis modules:</p><ul><li><code>pgvfdb</code> &mdash; screening against 154 curated virulence-factor families (192 alleles)</li><li><code>fimtyping</code> &mdash; fimA fimbrial types I&ndash;V</li><li><code>mfatyping</code> &mdash; the complete mfa1&ndash;mfa5 minor-fimbriae operon profile</li><li><code>ragtyping</code> &mdash; rag pathogenicity-island alleles rag-1 to rag-4</li><li><code>kantigen</code> &mdash; capsular K-antigen serotypes</li><li><code>pgfunc</code> &mdash; a ten-class functional category for every predicted gene</li></ul><p>The reference set was built from five complete <em>P. gingivalis</em> genomes (ATCC 33277, W83, TDC60, A7436, AJW4), re-annotated with Bakta and clustered with MMseqs2 at 80% identity over 80% coverage into 2,616 non-redundant gene families, 1,476 of which are present in all five strains. Because Gene Ontology and KEGG annotate fewer than half of the <em>P. gingivalis</em> genome, the ten functional categories were curated specifically so that whole-genome enrichment analyses can be run across the full gene complement.</p><p>Validation against twelve reference-typed genomes returned the expected call from every typing scheme, and an independent in-silico PCR using published fimA typing primers agreed with the sequence-based call for every genome.</p><p>The package runs from a command line, as a Python API, or through a bundled Flask browser interface, and types a complete assembly in under a minute. Python 3.8 or later; NCBI BLAST+ is the only external dependency.</p>",
+  "keywords": [
+    "Porphyromonas gingivalis",
+    "periodontitis",
+    "oral anaerobes",
+    "oral microbiology",
+    "bacterial typing",
+    "fimbrial typing",
+    "capsular typing",
+    "virulence factors",
+    "comparative genomics",
+    "functional annotation",
+    "bioinformatics software"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "https://github.com/YOUR-USERNAME/gingicharm",
+      "relation": "isSupplementTo",
+      "resource_type": "software",
+      "scheme": "url"
+    }
+  ],
+  "references": [
+    "Amano A, Nakagawa I, Kataoka K, Morisaki I, Hamada S. Distribution of Porphyromonas gingivalis strains with fimA genotypes in periodontitis patients. J Clin Microbiol 1999;37:1426-1430.",
+    "Nadkarni MA, Nguyen KA, Chapple CC, DeCarlo AA, Jacques NA, Hunter N. Distribution and molecular characterization of Porphyromonas gingivalis carrying a new type of fimA gene. J Clin Microbiol 2000;38:1490-1495.",
+    "Sakae K, Nagano K, Furuhashi M, Hasegawa Y. Diversity analysis of genes encoding Mfa1 fimbrial components in Porphyromonas gingivalis strains. PLoS One 2021;16:e0255111.",
+    "Nagano K, Hasegawa Y, Yoshida Y, Yoshimura F. Structural and antigenic characterization of a novel genotype of Mfa1 fimbriae in Porphyromonas gingivalis. J Oral Microbiol 2023;15:2215551.",
+    "Hall LM, Fawell SC, Shi X, Faray-Kele MC, Aduse-Opoku J, et al. Sequence diversity and antigenic variation at the rag locus of Porphyromonas gingivalis. Infect Immun 2005;73:4253-4262.",
+    "Aduse-Opoku J, Slaney JM, Hashim A, Gallagher A, Gallagher RP, et al. Identification and characterization of the capsular polysaccharide (K-antigen) locus of Porphyromonas gingivalis. Infect Immun 2006;74:449-460.",
+    "Schwengers O, Jelonek L, Dieckmann MA, Beyvers S, Blom J, Goesmann A. Bakta: rapid and standardized annotation of bacterial genomes via alignment-free sequence identification. Microb Genom 2021;7:000685.",
+    "Steinegger M, Soding J. MMseqs2 enables sensitive protein sequence searching for the analysis of massive data sets. Nat Biotechnol 2017;35:1026-1028.",
+    "Camacho C, Coulouris G, Avagyan V, Ma N, Papadopoulos J, et al. BLAST+: architecture and applications. BMC Bioinformatics 2009;10:421."
+  ]
+}
