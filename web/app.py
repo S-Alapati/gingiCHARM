@@ -64,6 +64,7 @@ except ImportError:
         "\n")
     sys.exit(1)
 
+import pgmlst
 import pgvfdb
 import fimtyping
 import mfatyping
@@ -80,7 +81,20 @@ os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
 os.makedirs(app.config["RESULTS_FOLDER"], exist_ok=True)
 
 # Map module key -> (label, callable, description)
+def _mlst(genome_path, min_identity=None, min_coverage=None, threads=4):
+    """MLST is an exact-match scheme, so it ignores the global sliders.
+
+    Relaxing identity or coverage here would not make the call more sensitive,
+    it would make it wrong: an allele number means "identical to the deposited
+    sequence over its full length", and anything else is a novel allele or an
+    incompletely assembled locus, both of which pgmlst already reports.
+    """
+    return pgmlst.analyze(genome_path, threads=threads)
+
+
 MODULES = {
+    "pgmlst":    ("MLST (PubMLST)",          _mlst,
+                  "Call the PubMLST seven-locus sequence type (ftsQ, gpdxJ, hagB, mcmA, pepO, pga, recA). Fixed thresholds: the identity and coverage sliders do not apply."),
     "pgvfdb":    ("Virulence factors",       pgvfdb.analyze,
                   "Screen the genome against 154 curated P. gingivalis virulence-factor families."),
     "fimtyping": ("fimA typing",             fimtyping.analyze,

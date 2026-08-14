@@ -5,18 +5,19 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "pgtoolkit"
 version = "1.0.0"
-description = "Porphyromonas gingivalis genomic analysis toolkit — virulence-factor screening, fimA/mfa1/rag/K-antigen typing and functional-category assignment."
+description = "Porphyromonas gingivalis genomic analysis toolkit — PubMLST sequence typing, virulence-factor screening, fimA/mfa/rag/K-antigen typing and functional-category assignment."
 readme = "README.md"
 requires-python = ">=3.8"
 license = {text = "MIT"}
 authors = [{name = "Pg Unified Database project"}]
-keywords = ["porphyromonas", "gingivalis", "virulence", "typing", "bioinformatics"]
+keywords = ["porphyromonas", "gingivalis", "virulence", "typing", "mlst", "bioinformatics"]
 dependencies = []
 
 [project.optional-dependencies]
 pandas = ["pandas>=1.0"]
 
 [project.scripts]
+pgmlst    = "pgmlst.cli:main"
 pgvfdb    = "pgvfdb.cli:main"
 fimtyping = "fimtyping.cli:main"
 mfatyping = "mfatyping.cli:main"
@@ -36,4 +37,8 @@ pgcore = [
     "data/Pg_unified_annotation.tsv",
     "data/blast_db/*",
     "data/sequences/*",
+]
+pgmlst = [
+    "data/*.fas",
+    "data/profiles.tsv",
 ]
