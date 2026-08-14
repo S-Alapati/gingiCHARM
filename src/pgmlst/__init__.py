@@ -43,49 +43,65 @@ def _profiles():
         return list(csv.DictReader(fh, delimiter="\t"))
 
 
+_SITE_BIN = 3000     # nt window used to group hits into one genomic locus
+
+
 def _call_locus(query, locus, min_coverage=95.0, min_identity=90.0, threads=4):
-    """Call one locus, returning (allele, identity, coverage, status).
+    """Call one locus, returning (candidates, identity, coverage, status).
 
-    Three outcomes are kept apart because they mean different things:
+    Four outcomes are kept apart because they mean different things:
 
-      known    full-length and 100% identical to a deposited allele
-      novel    full-length but not identical - a real new allele, usually one
-               or two SNPs from its nearest deposited neighbour, and worth
-               submitting to PubMLST
-      partial  the locus is not covered end to end, which almost always means
-               a contig boundary runs through it rather than that the gene is
-               missing, so no allele is claimed
+      known      full-length, 100% identical to exactly one deposited allele
+      ambiguous  the genome carries more than one copy of the locus and the
+                 copies match different deposited alleles
+      novel      full-length but not identical - a real new allele, usually one
+                 or two SNPs from its nearest deposited neighbour
+      partial    the locus is not covered end to end, which almost always means
+                 a contig boundary runs through it rather than that the gene is
+                 missing, so no allele is claimed
 
-    An exact-match test that reported only "matched / did not match" would put
-    the last two in the same bucket, and a submittable result and an assembly
-    limitation are not the same thing.
+    The ambiguous case is the one that bites. hagB lies in a tandem pair of
+    near-identical haemagglutinin genes about 3.1 kb apart, and 48 of 109
+    public assemblies carry both copies. Usually both give the same allele, but
+    when they differ, taking whichever hit BLAST reported first silently yields
+    the wrong allele and therefore the wrong ST. Every candidate is returned so
+    the caller can resolve it against the profile table rather than guess.
     """
     blastn = pgcore.blast.find_blast("blastn")
     fasta = os.path.join(_DATA, locus + ".fas")
     out = subprocess.run(
         [blastn, "-query", fasta, "-subject", query, "-dust", "no",
          "-num_threads", str(threads), "-perc_identity", str(min_identity),
-         "-max_target_seqs", "100",
-         "-outfmt", "6 qseqid pident length qlen"],
+         "-max_target_seqs", "500",
+         "-outfmt", "6 qseqid pident length qlen sseqid sstart send"],
         capture_output=True, text=True)
-    best = None
+
+    hits = []
     for line in out.stdout.splitlines():
         p = line.split("\t")
-        if len(p) < 4:
+        if len(p) < 7:
             continue
         qid, pid, alen, qlen = p[0], float(p[1]), int(p[2]), int(p[3])
-        cov = 100.0 * alen / qlen
-        full = cov >= min_coverage
-        score = (1 if (full and pid == 100.0) else 0, pid, alen)
-        if best is None or score > best[0]:
-            best = (score, qid, pid, cov, full)
-    if best is None:
-        return None, 0.0, 0.0, "absent"
-    _, qid, pid, cov, full = best
-    allele = qid.split("_")[-1]
+        contig, s1, e1 = p[4], int(p[5]), int(p[6])
+        hits.append({"allele": qid.split("_")[-1], "pid": pid,
+                     "cov": 100.0 * alen / qlen,
+                     "site": (contig, min(s1, e1) // _SITE_BIN)})
+    if not hits:
+        return [], 0.0, 0.0, "absent"
+
+    full = [h for h in hits if h["cov"] >= min_coverage]
     if not full:
-        return allele, pid, cov, "partial"
-    return allele, pid, cov, ("known" if pid == 100.0 else "novel")
+        b = max(hits, key=lambda h: (h["pid"], h["cov"]))
+        return [b["allele"]], b["pid"], b["cov"], "partial"
+
+    top = max(h["pid"] for h in full)
+    best = [h for h in full if h["pid"] == top]
+    alleles = sorted({h["allele"] for h in best},
+                     key=lambda x: int(x) if x.isdigit() else x)
+    cov = max(h["cov"] for h in best)
+    if top < 100.0:
+        return alleles, top, cov, "novel"
+    return alleles, top, cov, ("known" if len(alleles) == 1 else "ambiguous")
 
 
 def analyze(query, *, min_identity=90.0, min_coverage=95.0, threads=4):
@@ -100,48 +116,54 @@ def analyze(query, *, min_identity=90.0, min_coverage=95.0, threads=4):
     if not os.path.exists(query):
         raise FileNotFoundError(query)
 
-    records, alleles, novel, partial = [], {}, [], []
+    records, cands = [], {}
+    novel, partial, ambig = [], [], []
     for locus in LOCI:
-        allele, pid, cov, status = _call_locus(query, locus,
-                                               min_coverage=min_coverage,
-                                               min_identity=min_identity,
-                                               threads=threads)
-        alleles[locus] = allele if status == "known" else None
+        alleles, pid, cov, status = _call_locus(query, locus,
+                                                min_coverage=min_coverage,
+                                                min_identity=min_identity,
+                                                threads=threads)
+        cands[locus] = alleles if status in ("known", "ambiguous") else []
+        shown = "/".join(alleles) if alleles else "-"
         if status == "novel":
             novel.append(locus)
-            shown = "~" + allele
-        elif status == "partial":
+            shown = "~" + shown
+        elif status in ("partial", "absent"):
             partial.append(locus)
-            shown = "?" + allele
-        elif status == "absent":
-            partial.append(locus)
-            shown = "-"
-        else:
-            shown = allele
+            shown = ("?" + shown) if alleles else "-"
+        elif status == "ambiguous":
+            ambig.append(locus)
         records.append(dict(locus=locus, allele=shown,
                             identity=round(pid, 1), coverage=round(cov, 1),
-                            status=status))
+                            status=status, candidates=",".join(alleles)))
 
-    profile = "-".join(r["allele"] for r in records)
-    st = None
+    st, resolved, note = None, None, ""
     if not novel and not partial:
-        for prof in _profiles():
-            if all(prof[l] == alleles[l] for l in LOCI):
-                st = prof["ST"]
-                break
-
-    if st:
-        call, note = "ST" + st, ""
+        matches = [pr for pr in _profiles()
+                   if all(pr[l] in cands[l] for l in LOCI)]
+        if len(matches) == 1:
+            st = matches[0]["ST"]
+            resolved = {l: matches[0][l] for l in LOCI}
+        elif len(matches) > 1:
+            note = " (ambiguous: matches ST%s)" % ", ST".join(m["ST"] for m in matches)
+        elif not matches:
+            note = " (all alleles known, combination not in PubMLST)"
+        if st and ambig:
+            note = " (resolved; %s is multi-copy in this assembly)" % ", ".join(ambig)
+        call = "ST" + st if st else "novel ST"
     elif partial:
         call = "incomplete"
         note = " (%s not covered end to end - likely a contig break)" % ", ".join(partial)
-    elif novel:
+    else:
         call = "novel ST"
         note = " (novel allele%s at %s)" % ("s" if len(novel) > 1 else "",
                                             ", ".join(novel))
-    else:
-        call = "novel ST"
-        note = " (all alleles known, combination not in PubMLST)"
+
+    if resolved:
+        for r in records:
+            if r["status"] == "ambiguous":
+                r["allele"] = resolved[r["locus"]]
+    profile = "-".join(r["allele"] for r in records)
 
     notes = ["Scheme and allele definitions from %s." % SOURCE,
              "The scheme defines %d sequence types across roughly 190 "
@@ -156,14 +178,23 @@ def analyze(query, *, min_identity=90.0, min_coverage=95.0, threads=4):
         notes.append("No sequence type is reported because %s could not be "
                      "recovered at full length. This reflects assembly "
                      "contiguity, not gene absence." % ", ".join(partial))
+    if ambig:
+        notes.append("%s is present in more than one copy and the copies carry "
+                     "different alleles (%s). %s"
+                     % (", ".join(ambig),
+                        "; ".join("%s=%s" % (l, "/".join(cands[l])) for l in ambig),
+                        "Resolved against the profile table." if resolved else
+                        "Not resolvable against the profile table; all "
+                        "candidates are reported."))
 
     res = pgcore.Result(
         "MLST (PubMLST seven-locus scheme)",
-        ["locus", "allele", "identity", "coverage", "status"],
+        ["locus", "allele", "identity", "coverage", "status", "candidates"],
         records,
         summary={"ST": call, "profile": profile,
                  "novel_loci": ", ".join(novel) or "none",
-                 "partial_loci": ", ".join(partial) or "none"},
+                 "partial_loci": ", ".join(partial) or "none",
+                 "multicopy_loci": ", ".join(ambig) or "none"},
         headline="MLST: %s%s  [%s]" % (call, note, profile))
     res.ST = ("ST" + st) if st else None
     res.profile = profile
