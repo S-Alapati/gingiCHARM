@@ -8,11 +8,11 @@ pgmlst - PubMLST seven-locus sequence typing for Porphyromonas gingivalis.
 The scheme (ftsQ, gpdxJ, hagB, mcmA, pepO, pga, recA) was defined by Enersen
 et al. 2008 and is curated at PubMLST. Allele sequences and the profile table
 are redistributed with this package; the versions bundled here were retrieved
-on 14 August 2026. PubMLST serves unauthenticated clients only data submitted
-on or before 31 December 2024, so the bundled copy holds 172 of the 177
-sequence types the scheme contained on 5 February 2026. A profile called novel
-here may therefore be a recently deposited type; an authenticated user can
-refresh the bundled files.
+from an authenticated session on 17 August 2026 and hold the complete scheme:
+177 sequence types and 40/37/37/30/37/27/14 alleles for ftsQ/gpdxJ/hagB/mcmA/
+pepO/pga/recA. The public, unauthenticated view exposes the same allele set but
+only 172 of the 177 profiles, so an unauthenticated refresh would lose five
+sequence types.
 
 A sequence type places a strain in the nomenclature the rest of bacteriology
 uses, which is why gingiCHARM reports one. It should be read alongside the
