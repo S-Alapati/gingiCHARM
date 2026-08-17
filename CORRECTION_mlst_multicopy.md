@@ -34,8 +34,10 @@ fetch — that the Spanish isolates had no public STs — was therefore also wro
 | 153Pg | 14-5-1-3-8-2-3 | 14-5-1-**~1/3**-8-2-3 | ===~=== |
 | P4_Pig1 | 19-1-1-12-28-3-3 | **~19**-1-1-12-28-3-3 | ~====== |
 | UB14Pg | 17-8-17-5-21-17-1 | 17-8-**12/17**-5-21-**~17**-1 | ==+==~= |
-| AJW4 | 16-9-22-17-22-15-1 | 21-23-1/6-3-20-3-7 | XXXXXXX |
-| HG1691old | 3-6-35-28-12-3-3 | 14-1-1/6-6-8-~23-2 | XXXXXXX |
+| AJW4 | 16-9-22-17-22-15-1 | 21-23-1/6-3-20-3-7 | XXXXXXX* |
+| HG1691old | 3-6-35-28-12-3-3 | 14-1-1/6-6-8-~23-2 | XXXXXXX* |
+
+*Compared against the isolate record. For HG1691old, a scan of the assembly itself agrees with gingiCHARM at all seven loci — see below.
 
 `=` exact · `+` designated allele is among the candidates · `~` designated
 allele is the nearest, one base away in the assembly · `X` disagree
@@ -100,22 +102,55 @@ withdrawn — 144_3 *gpdxJ*, 153Pg *mcmA*, P4_Pig1 *ftsQ*, UB14Pg *pga*. The
 isolate is already typed in PubMLST and the deposited allele is one base away,
 so a new allele should not be claimed.
 
-## Not a bug — strain identity conflicts
+## Independent validation against the PubMLST genome scanner
 
-Two assemblies disagree with their PubMLST namesake at every locus:
+PubMLST's own scanner was run on the HG1691old assembly (NZ_CP116613.1) and its
+output compared with gingiCHARM's, locus by locus and coordinate by coordinate:
 
-- **AJW4** (GCF_001274615.1 / CP011996.1): 21 SNPs across the 2,800 bp of
-  MLST target, 1–7 per locus. The deposited alleles are present at 98.3–99.8 %
-  but never exactly.
-- **HG1691old** (GCF_028335085.1): deposited 3-6-35-28-12-3-3, assembly
-  14-1-1/6-6-8-~23-2.
+| Locus | PubMLST scanner | gingiCHARM | Agree |
+|---|---|---|---|
+| ftsQ | 14, 1795047–1795466 | 14, same coordinates | yes |
+| gpdxJ | 1, 1750464–1750843 | 1, same coordinates | yes |
+| hagB | **6**, 2272663–2273042 **and 1**, 2269513–2269892 | 1/6, same coordinates | yes, both copies |
+| mcmA | 6, 461492–461911 | 6, same coordinates | yes |
+| pepO | 8, 246573–246972 | 8, same coordinates | yes |
+| pga | no allele assigned | novel, 99.75 % to allele 23 | yes, neither assigns |
+| recA | 2, 1289278–1289677 | 2, same coordinates | yes |
 
-0.75 % divergence across seven housekeeping loci is far too much for the same
-clone — independent deposits of the same strain (W83 ×2, W50 ×2, ATCC 33277
-×2, A7A1-28 ×2) match perfectly. Either the assembly or the isolate record is
-mislabelled, or the name refers to different isolates in different laboratories.
-Both are flagged rather than silently reconciled. This is the same class of
-problem already documented for two *T. denticola* assemblies.
+Agreement is exact at all seven loci, to the base. Three things follow.
+
+The *hagB* duplication is confirmed by the curators' own tool, which likewise
+reports two copies carrying different alleles at the two positions this analysis
+identified. Reporting both candidates rather than silently choosing one is
+therefore the behaviour that matches curator practice, not a workaround.
+
+The *pga* call is corroborated. PubMLST's scanner assigns no allele at that
+locus, which is what it does when no deposited allele matches exactly. That is
+independent evidence the allele is genuinely new rather than an artefact, and it
+promotes this candidate — *pga*, 1 SNP from allele 23, otherwise a single-strain
+singleton in the "verify" tier — to a supportable submission.
+
+## Correction to an earlier conclusion — HG1691
+
+An earlier version of this document listed HG1691old as a case where
+gingiCHARM disagreed with PubMLST at every locus. That was the wrong framing.
+gingiCHARM does not disagree with PubMLST: run on the same sequence, the two
+tools agree exactly, as above.
+
+What differs is the *isolate record*. PubMLST isolate "HG1691" carries the
+designation 3-6-35-28-12-3-3, while the genome deposited as HG1691old
+(NZ_CP116613.1) types as 14-1-1/6-6-8-(novel *pga*)-2. The record and the
+assembly describe different organisms. The evidence for that conclusion stands,
+but it is evidence about the two public records, not about the typing method.
+
+The same caution applies to **AJW4**, still listed above as a whole-profile
+conflict. That comparison was also made against the isolate record rather than
+against a scan of the assembly. The assembly (CP011996.1) differs from the
+deposited AJW4 designation at all seven loci by 21 SNPs across 2,800 bp, which
+is far more than duplicate deposits of one strain show, so a labelling conflict
+between record and assembly remains the most likely reading — but running the
+PubMLST scanner on CP011996.1 would settle it the same way it settled HG1691,
+and that check has not yet been done.
 
 ## Files
 
