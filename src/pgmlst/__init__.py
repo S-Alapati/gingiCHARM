@@ -19,7 +19,7 @@ uses, which is why gingiCHARM reports one. It should be read alongside the
 fimA, mfa, rag and K-antigen calls rather than in place of them. The seven
 loci are housekeeping genes chosen for neutrality, so an ST carries no
 information about the fimbrial, capsular or rag loci; and with 177 STs defined
-over roughly 190 deposited isolates and no clonal complexes assigned, the scheme
+over 199 deposited isolates and no clonal complexes assigned, the scheme
 identifies individual strains far better than it groups them into lineages.
 """
 import csv
@@ -32,7 +32,7 @@ __version__ = "1.0.0"
 __all__ = ["analyze", "LOCI", "__version__"]
 
 LOCI = ["ftsQ", "gpdxJ", "hagB", "mcmA", "pepO", "pga", "recA"]
-N_ST = 177   # scheme total at 2026-02-05; 172 in the public release
+N_ST = 177   # complete scheme, authenticated download 2026-08-17
 SOURCE = "PubMLST (https://pubmlst.org/organisms/porphyromonas-gingivalis)"
 
 _DATA = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
@@ -166,7 +166,7 @@ def analyze(query, *, min_identity=90.0, min_coverage=95.0, threads=4):
     profile = "-".join(r["allele"] for r in records)
 
     notes = ["Scheme and allele definitions from %s." % SOURCE,
-             "The scheme defines %d sequence types across roughly 190 "
+             "The scheme defines %d sequence types across 199 "
              "deposited isolates and assigns no clonal complexes, so an ST identifies a "
              "strain but says little about lineage. Read it alongside the "
              "fimA, mfa, rag and K-antigen calls." % N_ST]
