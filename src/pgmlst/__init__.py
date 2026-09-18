@@ -8,18 +8,23 @@ pgmlst - PubMLST seven-locus sequence typing for Porphyromonas gingivalis.
 The scheme (ftsQ, gpdxJ, hagB, mcmA, pepO, pga, recA) was defined by Enersen
 et al. 2008 and is curated at PubMLST. Allele sequences and the profile table
 are redistributed with this package; the versions bundled here were retrieved
-from an authenticated session on 17 August 2026 and hold the complete scheme:
-177 sequence types and 40/37/37/30/37/27/14 alleles for ftsQ/gpdxJ/hagB/mcmA/
-pepO/pga/recA. The public, unauthenticated view exposes the same allele set but
-only 172 of the 177 profiles, so an unauthenticated refresh would lose five
-sequence types.
+on 17 September 2026. PubMLST defines 200 sequence types; the 199 that are
+fully resolvable are bundled here, alongside 40/37/37/30/37/27/14 alleles for
+ftsQ/gpdxJ/hagB/mcmA/pepO/pga/recA. ST200 is withheld because two of its
+constituent alleles, ftsQ 42 and recA 15, have been assigned but not yet
+released, so no assembly could resolve to it and including it would leave a
+profile citing alleles the package does not carry.
+
+ST178 to ST199 were defined from the twenty-two profiles contributed by this
+work, recovered from public NCBI RefSeq assemblies and accepted by the PubMLST
+curators in September 2026.
 
 A sequence type places a strain in the nomenclature the rest of bacteriology
 uses, which is why gingiCHARM reports one. It should be read alongside the
 fimA, mfa, rag and K-antigen calls rather than in place of them. The seven
 loci are housekeeping genes chosen for neutrality, so an ST carries no
-information about the fimbrial, capsular or rag loci; and with 177 STs defined
-over 199 deposited isolates and no clonal complexes assigned, the scheme
+information about the fimbrial, capsular or rag loci; and with 200 STs defined
+over 221 deposited isolates and no clonal complexes assigned, the scheme
 identifies individual strains far better than it groups them into lineages.
 """
 import csv
@@ -32,7 +37,7 @@ __version__ = "1.0.0"
 __all__ = ["analyze", "LOCI", "__version__"]
 
 LOCI = ["ftsQ", "gpdxJ", "hagB", "mcmA", "pepO", "pga", "recA"]
-N_ST = 177   # complete scheme, authenticated download 2026-08-17
+N_ST = 199   # PubMLST holds 200; ST200 withheld pending release of its alleles
 SOURCE = "PubMLST (https://pubmlst.org/organisms/porphyromonas-gingivalis)"
 
 _DATA = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
