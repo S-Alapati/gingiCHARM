@@ -8,16 +8,14 @@ pgmlst - PubMLST seven-locus sequence typing for Porphyromonas gingivalis.
 The scheme (ftsQ, gpdxJ, hagB, mcmA, pepO, pga, recA) was defined by Enersen
 et al. 2008 and is curated at PubMLST. Allele sequences and the profile table
 are redistributed with this package; the versions bundled here were retrieved
-on 17 September 2026. PubMLST defines 200 sequence types; the 199 that are
-fully resolvable are bundled here, alongside 40/37/37/30/37/27/14 alleles for
-ftsQ/gpdxJ/hagB/mcmA/pepO/pga/recA. ST200 is withheld because two of its
-constituent alleles, ftsQ 42 and recA 15, have been assigned but not yet
-released, so no assembly could resolve to it and including it would leave a
-profile citing alleles the package does not carry.
+in September 2026 and hold the complete scheme: 200 sequence types and
+42/39/38/31/37/28/15 alleles for ftsQ/gpdxJ/hagB/mcmA/pepO/pga/recA (230 in
+all).
 
-ST178 to ST199 were defined from the twenty-two profiles contributed by this
-work, recovered from public NCBI RefSeq assemblies and accepted by the PubMLST
-curators in September 2026.
+Part of that release came from this work. ST178 to ST199 were defined from
+twenty-two profiles recovered from public NCBI RefSeq assemblies, and seven
+alleles recovered from the same assemblies were defined as ftsQ 41, gpdxJ 38
+and 39, hagB 38, mcmA 31, pga 28 and recA 15.
 
 A sequence type places a strain in the nomenclature the rest of bacteriology
 uses, which is why gingiCHARM reports one. It should be read alongside the
@@ -37,7 +35,7 @@ __version__ = "1.0.0"
 __all__ = ["analyze", "LOCI", "__version__"]
 
 LOCI = ["ftsQ", "gpdxJ", "hagB", "mcmA", "pepO", "pga", "recA"]
-N_ST = 199   # PubMLST holds 200; ST200 withheld pending release of its alleles
+N_ST = 200   # complete scheme, September 2026 release (230 alleles)
 SOURCE = "PubMLST (https://pubmlst.org/organisms/porphyromonas-gingivalis)"
 
 _DATA = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
@@ -171,7 +169,7 @@ def analyze(query, *, min_identity=90.0, min_coverage=95.0, threads=4):
     profile = "-".join(r["allele"] for r in records)
 
     notes = ["Scheme and allele definitions from %s." % SOURCE,
-             "The scheme defines %d sequence types across 199 "
+             "The scheme defines %d sequence types across 221 "
              "deposited isolates and assigns no clonal complexes, so an ST identifies a "
              "strain but says little about lineage. Read it alongside the "
              "fimA, mfa, rag and K-antigen calls." % N_ST]
