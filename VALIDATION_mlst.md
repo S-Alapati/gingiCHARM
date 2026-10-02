@@ -176,3 +176,96 @@ virulence-locus profile, and neither typing framework substitutes for the other.
   before 31 December 2024). Five sequence types added since are not included.
 - Novel alleles are reported but not assigned numbers. Numbering requires
   submission to PubMLST, which the module does not automate.
+
+---
+
+# October 2026 release: database update and re-validation
+
+Eleven alleles accepted on 30 September 2026 and ten sequence types assigned
+after them were added to the bundled database on 2 October 2026. The scripts
+that produced every number below are in `validation/`.
+
+## What changed
+
+| | Before | After |
+|---|---|---|
+| Alleles, ftsQ/gpdxJ/hagB/mcmA/pepO/pga/recA | 42/39/38/31/37/28/15 | 42/42/41/31/40/29/16 |
+| Alleles, total | 230 | 241 |
+| Sequence types defined in the scheme | 200 | 220 |
+| Sequence types bundled | 200 | 210 |
+
+The eleven alleles were assigned gpdxJ 40 to 42, hagB 39 to 41, pepO 38 to 40,
+pga 29 and recA 16. The ten sequence types were assigned as below, and each is
+the profile of one RefSeq assembly.
+
+| ST | Strain | Profile |
+|---|---|---|
+| ST208 | 1439 | 14-38-1-21-8-3-2 |
+| ST209 | KCOM_2799 | 4-39-1-3-6-3-2 |
+| ST210 | Kyudai-3 | 41-38-1-6-8-7-2 |
+| ST211 | Kyudai-4 | 4-1-38-31-5-7-2 |
+| ST212 | SJD12 | 30-26-3-5-29-7-15 |
+| ST213 | WW2866 | 21-8-3-3-21-28-14 |
+| ST217 | JKG10 | 30-26-41-1-29-2-11 |
+| ST218 | LyEC01 | 40-35-12-5-38-7-2 |
+| ST219 | NBRC_115148 | 24-13-13-26-40-3-15 |
+| ST220 | WW2096 | 1-8-40-3-8-17-4 |
+
+Ten sequence types defined in the scheme are deliberately absent from the
+bundled table: ST201 to ST207 and ST214 to ST216 are the PRJDB2925 profiles,
+whose designations had not been confirmed when the release was cut. A genome
+matching one of those profiles is reported as complete but undefined rather
+than as a new type, and the module now says so in its notes.
+
+## Re-validation
+
+Fifty checks were run by `validation/verify_mlst_database.py` and all passed.
+
+| Check | Result |
+|---|---|
+| Allele numbering per locus | 1..n contiguous, no gaps, at all seven loci |
+| Allele length | every allele matches the locus length (420/380/380/420/400/400/400 bp) |
+| Allele composition | ACGT only |
+| Allele redundancy | no two alleles of a locus share a sequence |
+| Allele total | 241 |
+| Profile uniqueness | all 210 profiles distinct |
+| Profile integrity | every allele referenced by a profile exists in the allele files |
+| Profile gaps | exactly ST201 to ST207 and ST214 to ST216 absent |
+| New profiles against the submitted file | all ten identical |
+| PubMLST isolate validation | 221/221 re-typed to the deposited profile and ST |
+| Cross-package sync | all eight data files byte-identical in gingiCHARM and perioCHARM |
+
+The ten new profiles were then re-derived from the assemblies themselves by
+exact allele matching on both strands (`validation/rederive_new_profiles.py`),
+independently of the submission files, and all ten returned a single
+unambiguous allele at every locus matching the assigned type.
+
+**WW3039.** Each of the seven sequences PubMLST exports for isolate 221 carries
+a trailing `=` character, which makes every locus one base longer than the
+scheme length and matches no allele. The character is an artefact of the export
+and is stripped before matching; with that done, WW3039 types to ST199 as
+curated. The validation script strips it explicitly rather than silently, so the
+behaviour is visible to anyone re-running it.
+
+## Re-typing the RefSeq assemblies
+
+`validation/retype_refseq_assemblies.py` re-typed all 109 RefSeq assemblies
+against the updated scheme and rewrote Supplementary Table S3.
+
+| Outcome | Assemblies | Before |
+|---|---|---|
+| Defined ST | **59 (54 %)** | 48 (44 %) |
+| Undeposited allele at one or more loci | 41 | 44 |
+| Locus not recovered end to end | 3 | 8 |
+| All alleles deposited, type not yet defined | 6 | 7 |
+| Unresolved multi-copy locus | 0 | 3 |
+
+Distinct types rose from 33 to 43, of which 32 were defined by this work. The
+multi-copy *hagB* pair was detected in 11 assemblies and resolved against the
+profile table in all 11, where previously three were left unresolved; the three
+extra deposited alleles at *hagB* are what closed them.
+
+Six assemblies, representing five distinct strains, now carry seven deposited
+alleles in a combination that is not yet a defined type: AJW4, KCOM_2796, TDC60
+(deposited twice, as TDC60 and TDC_60), WW3040 and WW5127. These are candidates
+for a further profile submission.
