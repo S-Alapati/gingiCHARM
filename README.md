@@ -132,10 +132,95 @@ The MLST module carries the PubMLST seven-locus scheme. Thirty-two sequence
 types and seven alleles recovered from public RefSeq assemblies were returned
 to PubMLST and defined there, taking the scheme from 177 types to 220.
 
-Every gene also carries a functional category from a ten-class scheme curated
-for this organism. GO and KEGG annotate fewer than half the *P. gingivalis*
-genome, so an enrichment analysis run against them discards most of the genome
-before it starts; these categories cover all of it.
+## Functional categories
+
+Every gene family carries exactly one of ten functional categories, curated for
+this organism rather than inherited from a general ontology.
+
+![How every gene gets a functional category](assets/functional_categories.png)
+
+### Why not COG, GO or KEGG
+
+A COG letter is available for 1,292 of the 2,616 gene families, which is
+49.4 %. The missing half is the obvious problem; the bigger one is that it is
+not missing at random.
+
+| Category | Families | With a COG letter |
+|---|---|---|
+| Uncharacterized Proteins | 878 | 14 % |
+| Metabolic Homeostasis | 755 | 78 % |
+| Genetic Information Processing | 311 | 84 % |
+| Mobile Genetic Elements & HGT | 152 | 10 % |
+| Cell Envelope & Morphogenesis | 113 | 35 % |
+| Secretion & Molecular Export | 106 | 76 % |
+| Surface Structures & Colonization | 88 | 45 % |
+| Proteolytic Virulence & Effectors | 80 | 74 % |
+| Environmental Stress & Defense | 78 | 51 % |
+| Heme & Ion Homeostasis | 55 | 78 % |
+
+COG covers the housekeeping categories well and the organism-specific ones
+badly: 84 % of genetic information processing against 10 % of mobile genetic
+elements and 35 % of the cell envelope. That follows from how orthologous
+groups are built, since COGs are defined by conservation across distant taxa
+and the categories that fall out worst are the lineage-restricted and recently
+acquired ones. So a COG-based enrichment test on a *P. gingivalis* experiment
+asking about surface structures or horizontally acquired material runs on a
+tenth to a half of the relevant genes, and the ones it drops are not a random
+sample with respect to the question. The result is biased, not merely
+underpowered.
+
+### How a gene is assigned
+
+Four lines of evidence are collected for every family: the COG letter from the
+Bakta annotation, the best `blastp` hit against UniProtKB/Swiss-Prot at
+e-value ≤ 1e-10, the Bakta product name and Pfam/InterPro domains, and a
+curated list of *P. gingivalis* gene and product-name fragments that
+unambiguously flag a category.
+
+These feed a four-tier cascade, and the first tier that fires decides. Tier 1
+matches the organism-specific marker list, which handles the gingipains, the
+T9SS/Por machinery, the Hmu system, the fim and mfa operons and the rag locus.
+Tier 2 matches product name and Pfam accession against a conservative rule
+table. Tier 3 maps the COG letter. Tier 4 places anything left in
+Uncharacterized Proteins. The tier that fired is recorded per family in
+`Category_evidence`, so every assignment carries its provenance and you can
+filter on how it was made.
+
+Assignments were then checked against Swiss-Prot. Of the disagreements, 97
+proved to be systematic naming differences, for instance "UvrABC system protein
+C" against "excinuclease UvrC", and were resolved by synonym-aware comparison.
+Twenty-two were real mislabels and were corrected: seven named genes (*panC*,
+*ompR*, *xthA*, *ompA*, *porG*, *rarA*, PgCG_01627) and fifteen families that
+had sat in Uncharacterized Proteins despite unambiguous Swiss-Prot homology.
+
+### Do the categories mean anything
+
+They can be checked against something they were not built from. The pangenome
+partition is computed from presence and absence across the five source genomes
+and uses no category information, and the categories line up with it: 595 of
+755 metabolic families are core, as central metabolism should be; 143 of 152
+mobile element families are accessory, as mobile DNA should be; and 360 of 878
+uncharacterized families are strain-unique, which is what an unknown residue
+should look like if it is holding genuinely unknown material rather than
+serving as a dumping ground.
+
+Labelling is not the same as knowing. A third of the genome sits in
+Uncharacterized Proteins, and an enrichment result that resolves to that
+category is a statement about ignorance. The category exists so the unknown
+fraction stays visible and countable instead of being silently dropped before
+the test runs.
+
+### Using them
+
+```bash
+pgfunc my_strain.fna -o categories.tsv
+```
+
+Categories transfer to a query genome by homology to the family reference at
+70 % identity over 70 % coverage, so a query gene inherits the category of the
+family it matches rather than being re-derived. A gene family absent from all
+five source genomes is reported as uncharacterized by default rather than by
+evidence, which is a limitation worth remembering when the query is divergent.
 
 ## How typing works
 
