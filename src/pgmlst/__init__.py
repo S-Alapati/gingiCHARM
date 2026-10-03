@@ -23,6 +23,26 @@ defined as gpdxJ 40 to 42, hagB 39 to 41, pepO 38 to 40, pga 29 and recA 16,
 and ten of the profiles they completed were defined as ST208 to ST213 and
 ST217 to ST220.
 
+Where no exact type can be assigned the nearest defined profile is reported
+instead of a bare "novel ST", following the notation a PubMLST profile query
+uses, so the two are directly comparable:
+
+    ST25     exact match at all seven loci
+    ST111*   nearest profile; the seven loci are complete and every allele is
+             deposited, but the combination is undefined, so this is a
+             candidate new type
+    ST111*~  nearest profile; a novel allele is carried, so a new type follows
+             once that allele is defined
+    ST111*?  nearest profile; a locus was not recovered end to end, so the true
+             type may already be defined and nothing can be concluded
+
+The asterisk always marks a nearest-profile result and never an assignment.
+Loci matched, mismatch count, the mismatching loci and any equally close
+profiles are reported alongside. A locus counts as matched when any candidate
+allele equals the profile allele, and a locus with no call counts as a
+mismatch, which reproduces what a PubMLST profile query reports for the same
+assembly.
+
 A sequence type places a strain in the nomenclature the rest of bacteriology
 uses, which is why gingiCHARM reports one. It should be read alongside the
 fimA, mfa, rag and K-antigen calls rather than in place of them. The seven
@@ -55,6 +75,34 @@ def _profiles():
 
 
 _SITE_BIN = 3000     # nt window used to group hits into one genomic locus
+
+
+def _nearest(cands, max_ties=4):
+    """Nearest defined profile(s) to a set of per-locus candidate alleles.
+
+    A locus counts as matched when any candidate equals the profile allele.
+    A locus with no candidate counts as a mismatch, so the loci-matched and
+    mismatch counts reproduce what a PubMLST profile query reports for the
+    same assembly. Returns None when the table is empty.
+    """
+    scored = []
+    for pr in _profiles():
+        hit = [l for l in LOCI if cands.get(l) and pr[l] in cands[l]]
+        scored.append((len(hit), int(pr["ST"]), pr,
+                       [l for l in LOCI if l not in hit]))
+    if not scored:
+        return None
+    scored.sort(key=lambda x: (-x[0], x[1]))
+    top = scored[0][0]
+    tied = [s for s in scored if s[0] == top]
+    first = tied[0]
+    return {"ST": first[2]["ST"],
+            "loci_matched": top,
+            "mismatches": len(LOCI) - top,
+            "mismatch_loci": first[3],
+            "clonal_complex": first[2].get("clonal_complex", "") or "",
+            "ties": [t[2]["ST"] for t in tied[1:max_ties + 1]],
+            "n_tied": len(tied)}
 
 
 def _call_locus(query, locus, min_coverage=95.0, min_identity=90.0, threads=4):
@@ -170,6 +218,23 @@ def analyze(query, *, min_identity=90.0, min_coverage=95.0, threads=4):
         note = " (novel allele%s at %s)" % ("s" if len(novel) > 1 else "",
                                             ", ".join(novel))
 
+    # Nearest defined profile, when no exact sequence type was assigned.
+    # A locus counts as matched when any candidate allele equals the profile
+    # allele; a locus with no call counts as a mismatch. This follows the
+    # PubMLST query semantics, so the counts are directly comparable.
+    near = None
+    if st is None:
+        near = _nearest(cands)
+        if near:
+            flag = "*~" if novel else ("*?" if partial else "*")
+            call = "ST%s%s" % (near["ST"], flag)
+            note = (" (nearest profile; %d/7 loci matched, %d mismatch%s at %s%s)"
+                    % (near["loci_matched"], near["mismatches"],
+                       "" if near["mismatches"] == 1 else "es",
+                       ", ".join(near["mismatch_loci"]),
+                       "; %d profiles tie" % (len(near["ties"]) + 1)
+                       if near["ties"] else ""))
+
     if resolved:
         for r in records:
             if r["status"] == "ambiguous":
@@ -181,7 +246,23 @@ def analyze(query, *, min_identity=90.0, min_coverage=95.0, threads=4):
              "deposited isolates and assigns no clonal complexes, so an ST identifies a "
              "strain but says little about lineage. Read it alongside the "
              "fimA, mfa, rag and K-antigen calls." % N_ST]
-    if call == "novel ST" and not novel and not partial:
+    if near:
+        notes.append(
+            "No exact sequence type. The nearest defined profile is ST%s, "
+            "matching %d of 7 loci with %d mismatch%s (%s)%s. The asterisk in "
+            "the call marks a nearest-profile result, never an assignment: "
+            "'*' alone means the profile is complete and every allele is "
+            "deposited, so this is a candidate new type; '*~' means a novel "
+            "allele is carried, so a new type follows once that allele is "
+            "defined; '*?' means a locus was not recovered end to end, so the "
+            "true type may already be defined and nothing can be concluded."
+            % (near["ST"], near["loci_matched"], near["mismatches"],
+               "" if near["mismatches"] == 1 else "es",
+               ", ".join(near["mismatch_loci"]),
+               "; %d profiles are equally close (%s)"
+               % (near["n_tied"], ", ".join("ST" + t for t in near["ties"]))
+               if near["ties"] else ""))
+    if call.endswith("*") and not novel and not partial:
         notes.append(
                 "The profile is complete and every allele is deposited, but it "
                 "matches no profile in the bundled table, which holds %d of the "
@@ -211,11 +292,19 @@ def analyze(query, *, min_identity=90.0, min_coverage=95.0, threads=4):
         summary={"ST": call, "profile": profile,
                  "novel_loci": ", ".join(novel) or "none",
                  "partial_loci": ", ".join(partial) or "none",
-                 "multicopy_loci": ", ".join(ambig) or "none"},
+                 "multicopy_loci": ", ".join(ambig) or "none",
+                 "nearest_ST": ("ST" + near["ST"]) if near else "-",
+                 "loci_matched": ("%d/7" % near["loci_matched"]) if near else "7/7",
+                 "mismatches": str(near["mismatches"]) if near else "0",
+                 "mismatch_loci": ", ".join(near["mismatch_loci"]) if near else "none",
+                 "nearest_ties": ", ".join("ST" + t for t in near["ties"])
+                                 if near and near["ties"] else "none"},
         headline="MLST: %s%s  [%s]" % (call, note, profile))
     res.ST = ("ST" + st) if st else None
+    res.call = call
     res.profile = profile
     res.novel_loci = novel
     res.partial_loci = partial
+    res.nearest = near
     res.notes = notes
     return res
