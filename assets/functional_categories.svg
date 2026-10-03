@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 600" width="1400" height="600" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif">
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#8a7f76"/></marker>
+<marker id="ag" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#486B5A"/></marker></defs>
+<rect width="1400" height="600" fill="#FFFDF9"/>
+<text x="34" y="38" font-size="20" fill="#2A1B1F" text-anchor="start" font-weight="bold">How every gene gets a functional category</text>
+<text x="34" y="60" font-size="13" fill="#6b6058" text-anchor="start" font-weight="normal">a four-tier cascade; the first tier that fires decides, and which tier fired is recorded per gene</text>
+<rect x="34" y="92" width="600" height="84" rx="7" fill="#FFFDF9" stroke="#486B5A" stroke-width="1.8"/>
+<circle cx="64" cy="122" r="17" fill="#486B5A"/>
+<text x="64" y="128" font-size="16" fill="#FFFDF9" text-anchor="middle" font-weight="bold">1</text>
+<text x="94" y="119" font-size="15" fill="#2A1B1F" text-anchor="start" font-weight="bold">Organism-specific marker</text>
+<text x="94" y="140" font-size="12.3" fill="#6b6058" text-anchor="start" font-weight="normal">gene symbol or product matches the curated P. gingivalis marker list</text>
+<text x="94" y="159" font-size="12.3" fill="#486B5A" text-anchor="start" font-weight="normal">gingipains, T9SS/Por, Hmu, fim and mfa operons, rag locus</text>
+<path d="M334.0 176 L334.0 190" stroke="#486B5A" stroke-width="1.8" fill="none" marker-end="url(#ag)"/>
+<rect x="34" y="190" width="600" height="84" rx="7" fill="#FFFDF9" stroke="#486B5A" stroke-width="1.8"/>
+<circle cx="64" cy="220" r="17" fill="#486B5A"/>
+<text x="64" y="226" font-size="16" fill="#FFFDF9" text-anchor="middle" font-weight="bold">2</text>
+<text x="94" y="217" font-size="15" fill="#2A1B1F" text-anchor="start" font-weight="bold">Keyword and Pfam domain</text>
+<text x="94" y="238" font-size="12.3" fill="#6b6058" text-anchor="start" font-weight="normal">product name and Pfam accession against a conservative rule table</text>
+<text x="94" y="257" font-size="12.3" fill="#486B5A" text-anchor="start" font-weight="normal">'ribosomal protein' → Genetic Information Processing</text>
+<path d="M334.0 274 L334.0 288" stroke="#486B5A" stroke-width="1.8" fill="none" marker-end="url(#ag)"/>
+<rect x="34" y="288" width="600" height="84" rx="7" fill="#FFFDF9" stroke="#CBB175" stroke-width="1.8"/>
+<circle cx="64" cy="318" r="17" fill="#CBB175"/>
+<text x="64" y="324" font-size="16" fill="#FFFDF9" text-anchor="middle" font-weight="bold">3</text>
+<text x="94" y="315" font-size="15" fill="#2A1B1F" text-anchor="start" font-weight="bold">COG category letter</text>
+<text x="94" y="336" font-size="12.3" fill="#6b6058" text-anchor="start" font-weight="normal">the COG letter from the Bakta annotation is mapped to a category</text>
+<text x="94" y="355" font-size="12.3" fill="#CBB175" text-anchor="start" font-weight="normal">J → Genetic Information Processing; M → Cell Envelope</text>
+<path d="M334.0 372 L334.0 386" stroke="#486B5A" stroke-width="1.8" fill="none" marker-end="url(#ag)"/>
+<rect x="34" y="386" width="600" height="84" rx="7" fill="#FFFDF9" stroke="#a09488" stroke-width="1.8"/>
+<circle cx="64" cy="416" r="17" fill="#a09488"/>
+<text x="64" y="422" font-size="16" fill="#FFFDF9" text-anchor="middle" font-weight="bold">4</text>
+<text x="94" y="413" font-size="15" fill="#2A1B1F" text-anchor="start" font-weight="bold">Default</text>
+<text x="94" y="434" font-size="12.3" fill="#6b6058" text-anchor="start" font-weight="normal">nothing above fired</text>
+<text x="94" y="453" font-size="12.3" fill="#a09488" text-anchor="start" font-weight="normal">the family is placed in Uncharacterized Proteins</text>
+<rect x="34" y="484" width="600" height="56" rx="7" fill="#edf3ef" stroke="#486B5A" stroke-width="1.8"/>
+<text x="334.0" y="508" font-size="14.5" fill="#486B5A" text-anchor="middle" font-weight="bold">category assigned, with the tier that assigned it</text>
+<text x="334.0" y="527" font-size="12.5" fill="#6b6058" text-anchor="middle" font-weight="normal">then verified against UniProtKB/Swiss-Prot: 22 of 2,616 corrected</text>
+<text x="680" y="92" font-size="17" fill="#2A1B1F" text-anchor="start" font-weight="bold">The ten categories</text>
+<text x="680" y="112" font-size="12.8" fill="#6b6058" text-anchor="start" font-weight="normal">every one of the 2,616 gene families carries exactly one</text>
+<text x="680" y="130" font-size="11.5" fill="#6b6058" text-anchor="start" font-weight="bold">category</text>
+<text x="980" y="130" font-size="11.5" fill="#6b6058" text-anchor="start" font-weight="bold">families</text>
+<text x="1280" y="130" font-size="11.5" fill="#6b6058" text-anchor="middle" font-weight="bold">COG</text>
+<text x="680" y="148" font-size="12.3" fill="#2A1B1F" text-anchor="start" font-weight="normal">Uncharacterized Proteins</text>
+<rect x="980" y="137" width="190.0" height="14" rx="2" fill="#a09488"/>
+<text x="1177.0" y="148" font-size="12" fill="#2A1B1F" text-anchor="start" font-weight="bold">878</text>
+<text x="1280" y="148" font-size="12" fill="#B85C43" text-anchor="middle" font-weight="bold">14 %</text>
+<text x="680" y="174" font-size="12.3" fill="#2A1B1F" text-anchor="start" font-weight="normal">Metabolic Homeostasis</text>
+<rect x="980" y="163" width="163.4" height="14" rx="2" fill="#486B5A"/>
+<text x="1150.382687927107" y="174" font-size="12" fill="#2A1B1F" text-anchor="start" font-weight="bold">755</text>
+<text x="1280" y="174" font-size="12" fill="#486B5A" text-anchor="middle" font-weight="bold">78 %</text>
+<text x="680" y="200" font-size="12.3" fill="#2A1B1F" text-anchor="start" font-weight="normal">Genetic Information Processing</text>
+<rect x="980" y="189" width="67.3" height="14" rx="2" fill="#486B5A"/>
+<text x="1054.3006833712984" y="200" font-size="12" fill="#2A1B1F" text-anchor="start" font-weight="bold">311</text>
+<text x="1280" y="200" font-size="12" fill="#486B5A" text-anchor="middle" font-weight="bold">84 %</text>
+<text x="680" y="226" font-size="12.3" fill="#2A1B1F" text-anchor="start" font-weight="normal">Mobile Genetic Elements and HGT</text>
+<rect x="980" y="215" width="32.9" height="14" rx="2" fill="#486B5A"/>
+<text x="1019.8929384965832" y="226" font-size="12" fill="#2A1B1F" text-anchor="start" font-weight="bold">152</text>
+<text x="1280" y="226" font-size="12" fill="#B85C43" text-anchor="middle" font-weight="bold">10 %</text>
+<text x="680" y="252" font-size="12.3" fill="#2A1B1F" text-anchor="start" font-weight="normal">Cell Envelope and Morphogenesis</text>
+<rect x="980" y="241" width="24.5" height="14" rx="2" fill="#486B5A"/>
+<text x="1011.4533029612757" y="252" font-size="12" fill="#2A1B1F" text-anchor="start" font-weight="bold">113</text>
+<text x="1280" y="252" font-size="12" fill="#B85C43" text-anchor="middle" font-weight="bold">35 %</text>
+<text x="680" y="278" font-size="12.3" fill="#2A1B1F" text-anchor="start" font-weight="normal">Secretion and Molecular Export</text>
+<rect x="980" y="267" width="22.9" height="14" rx="2" fill="#486B5A"/>
+<text x="1009.9384965831435" y="278" font-size="12" fill="#2A1B1F" text-anchor="start" font-weight="bold">106</text>
+<text x="1280" y="278" font-size="12" fill="#486B5A" text-anchor="middle" font-weight="bold">76 %</text>
+<text x="680" y="304" font-size="12.3" fill="#2A1B1F" text-anchor="start" font-weight="normal">Surface Structures and Colonization</text>
+<rect x="980" y="293" width="19.0" height="14" rx="2" fill="#486B5A"/>
+<text x="1006.0432801822324" y="304" font-size="12" fill="#2A1B1F" text-anchor="start" font-weight="bold">88</text>
+<text x="1280" y="304" font-size="12" fill="#B85C43" text-anchor="middle" font-weight="bold">45 %</text>
+<text x="680" y="330" font-size="12.3" fill="#2A1B1F" text-anchor="start" font-weight="normal">Proteolytic Virulence and Effectors</text>
+<rect x="980" y="319" width="17.3" height="14" rx="2" fill="#486B5A"/>
+<text x="1004.3120728929385" y="330" font-size="12" fill="#2A1B1F" text-anchor="start" font-weight="bold">80</text>
+<text x="1280" y="330" font-size="12" fill="#486B5A" text-anchor="middle" font-weight="bold">74 %</text>
+<text x="680" y="356" font-size="12.3" fill="#2A1B1F" text-anchor="start" font-weight="normal">Environmental Stress and Defense</text>
+<rect x="980" y="345" width="16.9" height="14" rx="2" fill="#486B5A"/>
+<text x="1003.879271070615" y="356" font-size="12" fill="#2A1B1F" text-anchor="start" font-weight="bold">78</text>
+<text x="1280" y="356" font-size="12" fill="#486B5A" text-anchor="middle" font-weight="bold">51 %</text>
+<text x="680" y="382" font-size="12.3" fill="#2A1B1F" text-anchor="start" font-weight="normal">Heme and Ion Homeostasis</text>
+<rect x="980" y="371" width="11.9" height="14" rx="2" fill="#486B5A"/>
+<text x="998.9020501138953" y="382" font-size="12" fill="#2A1B1F" text-anchor="start" font-weight="bold">55</text>
+<text x="1280" y="382" font-size="12" fill="#486B5A" text-anchor="middle" font-weight="bold">78 %</text>
+<rect x="680" y="402" width="640" height="104" rx="7" fill="#F4EFE6" stroke="#c9bdaf" stroke-width="1.6"/>
+<text x="696" y="426" font-size="14" fill="#2A1B1F" text-anchor="start" font-weight="bold">Why a curated scheme and not COG</text>
+<text x="696" y="448" font-size="12.2" fill="#6b6058" text-anchor="start" font-weight="normal">COG covers 49.4 % of the gene families, and the shortfall is not even:</text>
+<text x="696" y="465" font-size="12.2" fill="#6b6058" text-anchor="start" font-weight="normal">84 % of genetic information processing but 10 % of mobile elements and</text>
+<text x="696" y="482" font-size="12.2" fill="#6b6058" text-anchor="start" font-weight="normal">35 % of the cell envelope. A COG-based enrichment test therefore</text>
+<text x="696" y="499" font-size="12.2" fill="#6b6058" text-anchor="start" font-weight="normal">under-samples exactly the gene classes a pathogen study asks about.</text>
+</svg>
