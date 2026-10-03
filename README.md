@@ -24,7 +24,7 @@ Sequencing has got cheap enough that oral anaerobes are whole-genome sequenced
 routinely. The bioinformatics has not kept up. *E. coli*, the streptococci and
 the staphylococci all have dedicated typing servers, and the general typing
 platforms inherit their reference sets from those species. *P. gingivalis* is
-in none of them. Typing an isolate today means reading four separate typing
+in none of them. Typing an isolate today means reading several typing
 literatures, pulling reference alleles out of papers published between 1998 and
 2025, and writing a script per scheme — then repeating it genome by genome.
 Most groups skip it.
@@ -120,13 +120,10 @@ schemes.
 | mfa operon | mfa1: 53 / 70A / 70B · mfa2–4: 53 / 70 · mfa5: A1 A2 B C D E | — |
 | rag | rag-1, rag-2, rag-3, rag-4 | — |
 | K-antigen | K1, K3, K4, K6, K− | K2, K5, K7 |
-| MLST | 220 sequence types, 241 alleles | ST201–207, ST214–216 not yet bundled |
+| MLST | 220 sequence types, 241 alleles | - |
 
 K2, K5 and K7 are missing because no capsular sequence has ever been deposited
-for their reference strains (HG184, HG1690, 34-4). GenBank holds exactly two
-serotype-annotated *P. gingivalis* capsular records, AJ969093 (strain 381, K−)
-and AJ969094 (HG1703, K4), and the K-antigen references are built from the
-locus those two anchor.
+for their reference strains (HG184, HG1690, 34-4).
 
 The MLST module carries the PubMLST seven-locus scheme. Thirty-two sequence
 types and seven alleles recovered from public RefSeq assemblies were returned
