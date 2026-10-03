@@ -24,24 +24,33 @@ and ten of the profiles they completed were defined as ST208 to ST213 and
 ST217 to ST220.
 
 Where no exact type can be assigned the nearest defined profile is reported
-instead of a bare "novel ST", following the notation a PubMLST profile query
-uses, so the two are directly comparable:
+instead of a bare "novel ST". A trailing symbol marks the result as a nearest
+profile and says why no exact type was reached:
 
     ST25     exact match at all seven loci
     ST111*   nearest profile; the seven loci are complete and every allele is
              deposited, but the combination is undefined, so this is a
              candidate new type
-    ST111*~  nearest profile; a novel allele is carried, so a new type follows
-             once that allele is defined
-    ST111*?  nearest profile; a locus was not recovered end to end, so the true
-             type may already be defined and nothing can be concluded
+    ST111¶   nearest profile; a novel allele is carried, so a new type
+             follows once that allele is defined
+    ST111§   nearest profile; a locus was not recovered end to end, so the
+             true type may already be defined and nothing can be concluded
 
-The asterisk always marks a nearest-profile result and never an assignment.
-Loci matched, mismatch count, the mismatching loci and any equally close
-profiles are reported alongside. A locus counts as matched when any candidate
-allele equals the profile allele, and a locus with no call counts as a
-mismatch, which reproduces what a PubMLST profile query reports for the same
+A trailing symbol always marks a nearest-profile result and never an
+assignment. Loci matched, mismatch count, the mismatching loci and any equally
+close profiles are reported alongside. A locus counts as matched when any
+candidate allele equals the profile allele, and a locus with no call counts as
+a mismatch, which reproduces what a PubMLST profile query reports for the same
 assembly.
+
+PubMLST's own profile query defaults to "exact or nearest match" and applies no
+threshold, so it returns a best match however poor, and offers an optional
+"N or more matches" filter. This module follows the filtered form by default,
+at min_loci_matched=4, because a nearest profile sharing three loci or fewer
+invites being read as an assignment. Below the threshold no sequence type is
+reported and the call is "-", while the nearest profile and its counts are
+still recorded in the result fields, so nothing is discarded. Pass
+min_loci_matched=0 for PubMLST's unfiltered behaviour.
 
 A sequence type places a strain in the nomenclature the rest of bacteriology
 uses, which is why gingiCHARM reports one. It should be read alongside the
@@ -61,6 +70,11 @@ __version__ = "1.0.0"
 __all__ = ["analyze", "LOCI", "__version__"]
 
 LOCI = ["ftsQ", "gpdxJ", "hagB", "mcmA", "pepO", "pga", "recA"]
+# Trailing marks on a nearest-profile call. Never an assignment.
+NEAREST_UNDEFINED = "*"        # complete profile, every allele deposited
+NEAREST_NOVEL_ALLELE = "\u00b6"   # a novel allele is carried
+NEAREST_INCOMPLETE = "\u00a7"     # a locus was not recovered end to end
+MIN_LOCI_MATCHED = 4           # below this no ST is reported; 0 = PubMLST default
 N_ST = 220   # sequence types defined in the scheme, October 2026
 N_ST_BUNDLED = 210   # of those, the profiles held in data/profiles.tsv
 N_ALLELES = 241
@@ -163,7 +177,7 @@ def _call_locus(query, locus, min_coverage=95.0, min_identity=90.0, threads=4):
     return alleles, top, cov, ("known" if len(alleles) == 1 else "ambiguous")
 
 
-def analyze(query, *, min_identity=90.0, min_coverage=95.0, threads=4):
+def analyze(query, *, min_identity=90.0, min_coverage=95.0, threads=4, min_loci_matched=MIN_LOCI_MATCHED):
     """Call the PubMLST sequence type of a P. gingivalis genome assembly.
 
     `query` must be nucleotide (a genome assembly or contigs). `min_coverage`
@@ -225,8 +239,9 @@ def analyze(query, *, min_identity=90.0, min_coverage=95.0, threads=4):
     near = None
     if st is None:
         near = _nearest(cands)
-        if near:
-            flag = "*~" if novel else ("*?" if partial else "*")
+        if near and near["loci_matched"] >= min_loci_matched:
+            flag = (NEAREST_NOVEL_ALLELE if novel else
+                    NEAREST_INCOMPLETE if partial else NEAREST_UNDEFINED)
             call = "ST%s%s" % (near["ST"], flag)
             note = (" (nearest profile; %d/7 loci matched, %d mismatch%s at %s%s)"
                     % (near["loci_matched"], near["mismatches"],
@@ -234,6 +249,11 @@ def analyze(query, *, min_identity=90.0, min_coverage=95.0, threads=4):
                        ", ".join(near["mismatch_loci"]),
                        "; %d profiles tie" % (len(near["ties"]) + 1)
                        if near["ties"] else ""))
+        elif near:
+            call = "-"
+            note = (" (no sequence type; the nearest profile, ST%s, matches only "
+                    "%d of 7 loci, below the %d-locus reporting threshold)"
+                    % (near["ST"], near["loci_matched"], min_loci_matched))
 
     if resolved:
         for r in records:
@@ -249,20 +269,31 @@ def analyze(query, *, min_identity=90.0, min_coverage=95.0, threads=4):
     if near:
         notes.append(
             "No exact sequence type. The nearest defined profile is ST%s, "
-            "matching %d of 7 loci with %d mismatch%s (%s)%s. The asterisk in "
-            "the call marks a nearest-profile result, never an assignment: "
-            "'*' alone means the profile is complete and every allele is "
-            "deposited, so this is a candidate new type; '*~' means a novel "
-            "allele is carried, so a new type follows once that allele is "
-            "defined; '*?' means a locus was not recovered end to end, so the "
-            "true type may already be defined and nothing can be concluded."
+            "matching %d of 7 loci with %d mismatch%s (%s)%s."
             % (near["ST"], near["loci_matched"], near["mismatches"],
                "" if near["mismatches"] == 1 else "es",
                ", ".join(near["mismatch_loci"]),
                "; %d profiles are equally close (%s)"
                % (near["n_tied"], ", ".join("ST" + t for t in near["ties"]))
                if near["ties"] else ""))
-    if call.endswith("*") and not novel and not partial:
+        if near["loci_matched"] >= min_loci_matched:
+            notes.append(
+                "A trailing symbol marks a nearest-profile result, never an "
+                "assignment: '%s' means the profile is complete and every "
+                "allele deposited, so this is a candidate new type; '%s' means "
+                "a novel allele is carried, so a new type follows once that "
+                "allele is defined; '%s' means a locus was not recovered end "
+                "to end, so the true type may already be defined and nothing "
+                "can be concluded."
+                % (NEAREST_UNDEFINED, NEAREST_NOVEL_ALLELE, NEAREST_INCOMPLETE))
+        else:
+            notes.append(
+                "No sequence type is reported because the nearest profile "
+                "shares only %d of 7 loci, below the %d-locus threshold. The "
+                "nearest profile and its counts are kept in the result fields; "
+                "pass min_loci_matched=0 for the unfiltered PubMLST behaviour."
+                % (near["loci_matched"], min_loci_matched))
+    if call.endswith(NEAREST_UNDEFINED) and not novel and not partial:
         notes.append(
                 "The profile is complete and every allele is deposited, but it "
                 "matches no profile in the bundled table, which holds %d of the "
