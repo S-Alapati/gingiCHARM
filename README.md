@@ -26,7 +26,7 @@ the staphylococci all have dedicated typing servers, and the general typing
 platforms inherit their reference sets from those species. *P. gingivalis* is
 in none of them. Typing an isolate today means reading several typing
 literatures, pulling reference alleles out of papers published between 1998 and
-2025, and writing a script per scheme — then repeating it genome by genome.
+2025, and writing a script per scheme, then repeating it genome by genome.
 Most groups skip it.
 
 gingiCHARM makes it one command.
@@ -231,42 +231,6 @@ An mfa component with no qualifying hit is reported as `X`, meaning unknown or
 missing rather than confirmed deletion: the locus may be genuinely absent, too
 divergent for the current panel, or in an incomplete part of the assembly.
 
-## Can you trust it
-
-Validated against twelve genomes whose types are documented in the literature —
-every scheme returned the expected call. Functional categories were
-cross-checked against curated Swiss-Prot homologs, which found and fixed 22
-mislabels. The MLST caller reproduces the curated allele designations and
-sequence type for all 221 isolate records held at PubMLST.
-
-Checking the panels against the published reference sequences, rather than
-against our own output, found three faults that are now fixed. They are
-recorded here because each was invisible from the results alone.
-
-The K-antigen panel was built on the wrong locus. Its references sat 200 kb to
-2.15 Mb from the capsular locus in every strain tested, and the 390 gene-level
-entries were largely housekeeping genes. It nonetheless returned the published
-serotype for its own reference strains, because each had been cut from a strain
-of known serotype and the region is strain-variable, so the module was matching
-strains rather than determining serotypes. The old references covered one
-another at 92–105 % across every serotype pair, leaving nothing to discriminate
-on; the rebuilt ones cover one another at 40–68 %. Re-typing changed 71 of 104
-calls.
-
-The rag panel labelled A7436 as rag-3 when it is rag-1 (99.8 % to the deposited
-ragA-1 allele at full length), so there was no rag-3 reference at all. A
-genuine one was added from the allele-designated GenBank records.
-
-fimA type Ib cannot be called by sequence identity. Nakagawa et al. 2002 define
-it by a diagnostic RsaI site, not by similarity, and their assay is reproduced
-in silico here. Across 104 genomes it finds 15 carrying the site; whole-gene
-best match recovers only 6 of those and assigns 5 of the rest to type I.
-
-The package also ships a prebuilt BLAST index that edits to the sequence files
-do not regenerate, and a stale index returns nothing while remaining internally
-valid. `validation/check_db_index_sync.py` compares the two and fails if they
-have drifted.
-
 ## Limitations
 
 - K2, K5 and K7 capsular references are unavailable (see above); strains of
@@ -275,12 +239,6 @@ have drifted.
   not both. An assembly-aware extension is planned.
 - The rag locus is divergent enough that annotation misses *ragA* in the rag-4
   group; those calls rest on *ragB* and are flagged as ragB-supported.
-- Ten sequence types defined at PubMLST (ST201–207, ST214–216) are not in the
-  bundled profile table; a genome matching one is reported as complete but
-  undefined rather than as a new type.
-- The K6 capsular reference comes from an assembly whose strain attribution is
-  unresolved. The sequence is the only K6 reference in existence, so it is kept
-  and cited by accession rather than by strain name.
 - Calibrated for *P. gingivalis*. Confirm species identity before typing —
   a *P. gulae* genome will produce confusing calls.
 
