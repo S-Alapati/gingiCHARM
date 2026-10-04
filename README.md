@@ -120,7 +120,7 @@ schemes.
 | mfa operon | mfa1: 53 / 70A / 70B · mfa2–4: 53 / 70 · mfa5: A1 A2 B C D E | — |
 | rag | rag-1, rag-2, rag-3, rag-4 | — |
 | K-antigen | K1, K3, K4, K6, K− | K2, K5, K7 |
-| MLST | 220 sequence types, 241 alleles | - |
+| MLST | 210 of the 220 defined profiles, 241 alleles | 10 profiles not bundled |
 
 K2, K5 and K7 are missing because no capsular sequence has ever been deposited
 for their reference strains (HG184, HG1690, 34-4).
@@ -131,64 +131,99 @@ to PubMLST and defined there, taking the scheme from 177 types to 220.
 
 ## Functional categories
 
-Every gene family carries exactly one of ten functional categories, curated for
-this organism rather than inherited from a general ontology.
+Every gene family carries exactly one of ten categories, curated for this
+organism rather than adapted from a general ontology.
 
 ![How every gene gets a functional category](assets/functional_categories.png)
 
+### The ten categories
+
+| Category | Scope | Families | With a COG letter |
+|---|---|---|---|
+| Metabolic Homeostasis | central and intermediary metabolism; energy production; carbohydrate, amino-acid, nucleotide, lipid and cofactor metabolism; metabolite transport; housekeeping enzymes | 755 | 78 % |
+| Genetic Information Processing | replication, recombination and repair; transcription and its regulation; translation, including ribosomal proteins, tRNA and rRNA modification and translation factors; RNA processing; signal-transduction regulators acting through DNA binding | 311 | 84 % |
+| Cell Envelope & Morphogenesis | biogenesis and maintenance of wall and membranes; peptidoglycan synthesis and remodelling; outer-membrane proteins and porins; lipoproteins; division and elongation machinery | 113 | 35 % |
+| Surface Structures & Colonization | surface-exposed structures mediating host attachment: major and minor fimbriae, pili, adhesins, capsular polysaccharide, LPS and O-antigen biosynthesis | 88 | 45 % |
+| Secretion & Molecular Export | protein secretion and solute export across the envelope: T9SS/Por, ABC transporters, efflux pumps, dedicated export permeases | 106 | 76 % |
+| Proteolytic Virulence & Effectors | secreted and surface proteolytic virulence factors: gingipains, collagenases, haemagglutinins and other extracellular proteases implicated in tissue degradation and immune evasion | 80 | 74 % |
+| Heme & Ion Homeostasis | acquisition, transport and storage of iron, haem and metal ions: TonB-dependent receptors, the Hmu system, ferrous and ferric transporters, metal-storage proteins | 55 | 78 % |
+| Environmental Stress & Defense | protection against environmental and host-derived stress: oxidative-stress defence, chaperones and heat-shock proteins, restriction–modification and CRISPR–Cas anti-phage systems | 78 | 51 % |
+| Mobile Genetic Elements & HGT | mobile and horizontally transferred DNA: transposases and IS elements, integrases, prophage genes, conjugative-transfer machinery | 152 | 10 % |
+| Uncharacterized Proteins | no assignable function: hypothetical and DUF proteins, and proteins whose only homologues are themselves uncharacterized | 878 | 14 % |
+
+Category names are stored verbatim in the `Biological_Category` field, so the
+American spellings above are the literal data values and are kept as such.
+
 ### Why not COG, GO or KEGG
 
-A COG letter is available for 1,292 of the 2,616 gene families, which is
-49.4 %. The missing half is the obvious problem; the bigger one is that it is
-not missing at random.
+A COG letter is available for 1,292 of the 2,616 families, 49.4 %. The missing
+half is the obvious problem; the structure of the gap is the real one. COG
+reaches 84 % of genetic information processing and 78 % of metabolism but
+10 % of mobile genetic elements, 35 % of the cell envelope and 45 % of surface
+structures. That follows from how orthologous groups are built, since COGs are
+defined by conservation across distant taxa and the categories that fall out
+worst are the lineage-restricted and recently acquired ones. A COG-based
+enrichment test asking about surface structures or horizontally acquired
+material therefore runs on a tenth to a half of the relevant genes, and the
+genes it drops are not a random sample with respect to the question. The
+result is biased, not merely underpowered.
 
-| Category | Families | With a COG letter |
-|---|---|---|
-| Uncharacterized Proteins | 878 | 14 % |
-| Metabolic Homeostasis | 755 | 78 % |
-| Genetic Information Processing | 311 | 84 % |
-| Mobile Genetic Elements & HGT | 152 | 10 % |
-| Cell Envelope & Morphogenesis | 113 | 35 % |
-| Secretion & Molecular Export | 106 | 76 % |
-| Surface Structures & Colonization | 88 | 45 % |
-| Proteolytic Virulence & Effectors | 80 | 74 % |
-| Environmental Stress & Defense | 78 | 51 % |
-| Heme & Ion Homeostasis | 55 | 78 % |
+### Evidence gathered per family
 
-COG covers the housekeeping categories well and the organism-specific ones
-badly: 84 % of genetic information processing against 10 % of mobile genetic
-elements and 35 % of the cell envelope. That follows from how orthologous
-groups are built, since COGs are defined by conservation across distant taxa
-and the categories that fall out worst are the lineage-restricted and recently
-acquired ones. So a COG-based enrichment test on a *P. gingivalis* experiment
-asking about surface structures or horizontally acquired material runs on a
-tenth to a half of the relevant genes, and the ones it drops are not a random
-sample with respect to the question. The result is biased, not merely
-underpowered.
+Four independent lines, for every family: the COG functional-category letter
+from the Bakta annotation; the best `blastp` hit against UniProtKB/Swiss-Prot
+at e-value ≤ 1e-10, with the hit product name retained; the Bakta product name
+and Pfam/InterPro domains; and a curated list of *P. gingivalis* gene-name and
+product-name fragments that unambiguously flag a category, for instance
+*rgpA*, *rgpB* and *kgp* for proteolytic virulence and *porK*, *porL*, *porM*
+and *sov* for secretion.
 
-### How a gene is assigned
+### How assignment actually resolved
 
-Four lines of evidence are collected for every family: the COG letter from the
-Bakta annotation, the best `blastp` hit against UniProtKB/Swiss-Prot at
-e-value ≤ 1e-10, the Bakta product name and Pfam/InterPro domains, and a
-curated list of *P. gingivalis* gene and product-name fragments that
-unambiguously flag a category.
+Each family runs through the routes in order and the first to fire decides.
+The route that fired is recorded per family in `Category_evidence`, so every
+assignment carries its provenance and can be filtered on.
 
-These feed a four-tier cascade, and the first tier that fires decides. Tier 1
-matches the organism-specific marker list, which handles the gingipains, the
-T9SS/Por machinery, the Hmu system, the fim and mfa operons and the rag locus.
-Tier 2 matches product name and Pfam accession against a conservative rule
-table. Tier 3 maps the COG letter. Tier 4 places anything left in
-Uncharacterized Proteins. The tier that fired is recorded per family in
-`Category_evidence`, so every assignment carries its provenance and you can
-filter on how it was made.
+| Route | `Category_evidence` | What it matches | Families |
+|---|---|---|---|
+| Curated product name | `exact-product` | the Bakta product name against a curated product-to-category table | 2,248 |
+| Keyword and Pfam domain | `keyword` | product name and Pfam accession against a conservative rule table, where a term must be functionally definitive to fire: "ribosomal protein" to Genetic Information Processing, "TonB-dependent receptor" to Heme & Ion Homeostasis, `transposase\|IS_family` to Mobile Genetic Elements | 192 |
+| Organism-specific marker | `gene-symbol` | gene symbol against the curated *P. gingivalis* marker list | 35 |
+| COG letter | `COG-fallback` | the COG letter, where nothing above fired | 16 |
+| Default | `default` | nothing fired; the family is placed in Uncharacterized Proteins | 103 |
+| Swiss-Prot review | `swissprot-corrected` | reassigned by hand after the verification pass below | 22 |
 
-Assignments were then checked against Swiss-Prot. Of the disagreements, 97
-proved to be systematic naming differences, for instance "UvrABC system protein
-C" against "excinuclease UvrC", and were resolved by synonym-aware comparison.
-Twenty-two were real mislabels and were corrected: seven named genes (*panC*,
-*ompR*, *xthA*, *ompA*, *porG*, *rarA*, PgCG_01627) and fifteen families that
-had sat in Uncharacterized Proteins despite unambiguous Swiss-Prot homology.
+Two things in that table are worth reading carefully, because they are not
+what a four-tier description would lead you to expect.
+
+The curated product-name table does **86 % of the work**. The organism-marker
+list, which sounds like the primary mechanism, fires for 35 families, and the
+COG letter is a genuine last resort at 16. Most of the curation effort is
+therefore in the product-to-category mapping, not in the organism-specific
+patterns.
+
+And of the 878 families in Uncharacterized Proteins, **745 got there because
+the product name said so** — hypothetical protein, DUF-something — and only
+103 through the default route. The category is mostly a positive statement
+that the annotation declares the protein unknown, rather than a residue of
+classification failure.
+
+### Verification against Swiss-Prot
+
+Every representative protein was searched against UniProtKB/Swiss-Prot with
+`blastp` in batches of about 550, and the best hit compared with the assigned
+category. Swiss-Prot names beginning UPF, Uncharacterized, DUF or hypothetical,
+and names that are only locus tags, were excluded by an informative-name
+filter, since such a name can neither confirm nor refute a category.
+
+Where an informative name disagreed, the family was reviewed by hand. Of the
+disagreements, 97 proved to be systematic naming differences, for instance
+"UvrABC system protein C" against "excinuclease UvrC", and were resolved by
+synonym-aware comparison and a gene-symbol substring match. Twenty-two were
+real mislabels and were corrected: seven named genes (*panC*, *ompR*, *xthA*,
+*ompA*, *porG*, *rarA* and PgCG_01627) and fifteen families that had sat in
+Uncharacterized Proteins despite unambiguous Swiss-Prot homology. All twenty-two
+carry `Category_evidence = swissprot-corrected`.
 
 ### Do the categories mean anything
 
@@ -198,14 +233,7 @@ and uses no category information, and the categories line up with it: 595 of
 755 metabolic families are core, as central metabolism should be; 143 of 152
 mobile element families are accessory, as mobile DNA should be; and 360 of 878
 uncharacterized families are strain-unique, which is what an unknown residue
-should look like if it is holding genuinely unknown material rather than
-serving as a dumping ground.
-
-Labelling is not the same as knowing. A third of the genome sits in
-Uncharacterized Proteins, and an enrichment result that resolves to that
-category is a statement about ignorance. The category exists so the unknown
-fraction stays visible and countable instead of being silently dropped before
-the test runs.
+should look like if it holds genuinely unknown material.
 
 ### Using them
 
@@ -213,11 +241,12 @@ the test runs.
 pgfunc my_strain.fna -o categories.tsv
 ```
 
-Categories transfer to a query genome by homology to the family reference at
-70 % identity over 70 % coverage, so a query gene inherits the category of the
-family it matches rather than being re-derived. A gene family absent from all
-five source genomes is reported as uncharacterized by default rather than by
-evidence, which is a limitation worth remembering when the query is divergent.
+Each predicted coding sequence inherits the category of its best-scoring
+database hit at 70 % identity over 70 % coverage or better, rather than being
+re-derived. A query with no qualifying hit is reported explicitly rather than
+dropped. A gene family absent from all five source genomes therefore comes
+back as uncharacterized by default rather than by evidence, which is worth
+remembering when the query is divergent.
 
 ## How typing works
 
@@ -264,8 +293,12 @@ names shown above.
 
 ## Citing
 
-If gingiCHARM is useful in your work, please cite it. [Alapati, S. gingiCHARM: P.gingivalis characterisation, allele typing and reference module. GitHub https://github.com/S-Alapati/gingiCHARM (2026)]
-The accompanying paper is in preparation, this section will be updated with
+If gingiCHARM is useful in your work, please cite it.
+
+> Alapati, S. gingiCHARM: *P. gingivalis* characterisation, allele typing and
+> reference module. GitHub https://github.com/S-Alapati/gingiCHARM (2026)
+
+The accompanying paper is in preparation, and this section will be updated with
 the citation once it is published.
 
 ## Licence
