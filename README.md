@@ -264,9 +264,8 @@ names shown above.
 
 ## Citing
 
-If gingiCHARM is useful in your work, please cite it. A `CITATION.cff` is
-included, and GitHub will render a "Cite this repository" button from it.
-The accompanying paper is in preparation — this section will be updated with
+If gingiCHARM is useful in your work, please cite it. [Alapati, S. gingiCHARM: P.gingivalis characterisation, allele typing and reference module. GitHub https://github.com/S-Alapati/gingiCHARM (2026)]
+The accompanying paper is in preparation, this section will be updated with
 the citation once it is published.
 
 ## Licence
