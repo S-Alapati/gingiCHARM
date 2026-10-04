@@ -298,6 +298,14 @@ If gingiCHARM is useful in your work, please cite it.
 > Alapati, S. gingiCHARM: *P. gingivalis* characterisation, allele typing and
 > reference module. GitHub https://github.com/S-Alapati/gingiCHARM (2026)
 
+Research Team & Supervision:
+
+Marco Oggioni [2], Dana Dawson [1], Karolin Hijazi [1]
+
+[1]: School of Medicine Medical Sciences & Nutrition, University of Aberdeen, Aberdeen AB25 2ZD, Scotland, UK 
+
+[2]: Department of Pharmacy and Biotechnology, Universita’ di Bologna, Bologna, Italy 
+
 The accompanying paper is in preparation, and this section will be updated with
 the citation once it is published.
 
