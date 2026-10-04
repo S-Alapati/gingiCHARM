@@ -1,27 +1,20 @@
 cff-version: 1.2.0
-title: >-
-  gingiCHARM: a curated reference database and software package
-  for whole-genome characterisation and multi-scheme typing of
-  Porphyromonas gingivalis
-message: If you use gingiCHARM in your work, please cite it as below.
+message: "If gingiCHARM is useful in your work, please cite it as below."
+title: "gingiCHARM: P. gingivalis characterisation, allele typing and reference module"
 type: software
 authors:
-  - given-names: Susanth
-    family-names: Alapati
-abstract: >-
-  gingiCHARM (P. gingivalis CHaracterisation, Allele typing and
-  Reference Module) characterises a Porphyromonas gingivalis genome
-  assembly from a single curated reference database: virulence-factor
-  screening, fimA, mfa operon, rag and capsular K-antigen typing, and
-  a functional category for every predicted gene.
-keywords:
-  - Porphyromonas gingivalis
-  - periodontitis
-  - oral anaerobes
-  - bacterial typing
-  - virulence factors
-  - comparative genomics
-license: MIT
-repository-code: https://github.com/S-Alapati/gingiCHARM
-version: 1.0.0
-date-released: 2026-08-06
+  - family-names: "Alapati"
+    given-names: "Susanth"
+    affiliation: "School of Medicine, Medical Sciences & Nutrition, University of Aberdeen, Aberdeen, UK"
+  - family-names: "Oggioni"
+    given-names: "Marco R."
+    affiliation: "Department of Pharmacy and Biotechnology, Università di Bologna, Bologna, Italy"
+  - family-names: "Dawson"
+    given-names: "Dana"
+    affiliation: "School of Medicine, Medical Sciences & Nutrition, University of Aberdeen, Aberdeen, UK"
+  - family-names: "Hijazi"
+    given-names: "Karolin"
+    affiliation: "School of Medicine, Medical Sciences & Nutrition, University of Aberdeen, Aberdeen, UK"
+repository-code: "https://github.com/S-Alapati/gingiCHARM"
+url: "https://github.com/S-Alapati/gingiCHARM"
+date-released: "2026-08-06"
