@@ -120,7 +120,7 @@ schemes.
 | mfa operon | mfa1: 53 / 70A / 70B · mfa2–4: 53 / 70 · mfa5: A1 A2 B C D E | — |
 | rag | rag-1, rag-2, rag-3, rag-4 | — |
 | K-antigen | K1, K3, K4, K6, K− | K2, K5, K7 |
-| MLST | 210 of the 220 defined profiles, 241 alleles | 10 profiles not bundled |
+| MLST | 210 of the 220 defined profiles, 241 alleles |-|
 
 K2, K5 and K7 are missing because no capsular sequence has ever been deposited
 for their reference strains (HG184, HG1690, 34-4).
