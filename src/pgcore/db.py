@@ -59,3 +59,27 @@ def check_ready():
         missing.append("protein BLAST database")
     if missing:
         raise RuntimeError("pgtoolkit database files missing: " + ", ".join(missing))
+
+
+class ReferenceDataUnavailable(RuntimeError):
+    """Raised when a module's reference panel is not in this distribution."""
+
+
+_WITHHELD = """\
+The reference data for {module} is not included in this distribution.
+
+The public release carries only the core-genome backbone, which is what
+pgfunc requires. The curated typing panels, the virulence-factor reference
+set and the PubMLST scheme are held back pending publication of the work
+that describes them.
+
+The module code is complete and will run unchanged once the panel is
+present. Requests for the reference data, and notice of its release, go
+through https://github.com/S-Alapati/gingiCHARM
+"""
+
+
+def require_records(*types, module):
+    """Raise ReferenceDataUnavailable unless `types` are present."""
+    if not records_of_type(*types):
+        raise ReferenceDataUnavailable(_WITHHELD.format(module=module))

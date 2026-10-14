@@ -28,6 +28,7 @@ def analyze(query, *, min_identity=85.0, min_coverage=70.0, evalue=1e-10,
     `query` must be nucleotide. Returns a pgcore.Result; `result.rag_type`
     holds the combined call.
     """
+    pgcore.db.require_records("typing_ragA", "typing_ragB", module="ragtyping")
     hits = pgcore.screen(query, ("typing_ragA", "typing_ragB"),
                          require_nucleotide=True, min_identity=min_identity,
                          min_coverage=min_coverage, evalue=evalue, threads=threads)

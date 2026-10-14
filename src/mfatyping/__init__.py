@@ -52,6 +52,7 @@ def analyze(query, *, min_identity=80.0, min_coverage=70.0, evalue=1e-10,
     to distinguish those cases.
     """
     record_types = tuple(rt for rt, _ in _OPERON)
+    pgcore.db.require_records(*record_types, module="mfatyping")
     hits = pgcore.screen(query, record_types, require_nucleotide=True,
                          min_identity=min_identity, min_coverage=min_coverage,
                          evalue=evalue, threads=threads)

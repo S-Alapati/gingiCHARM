@@ -83,6 +83,15 @@ SOURCE = "PubMLST (https://pubmlst.org/organisms/porphyromonas-gingivalis)"
 _DATA = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
 
 
+def _require_scheme():
+    """Raise if the bundled PubMLST scheme is not in this distribution."""
+    if not os.path.exists(os.path.join(_DATA, "profiles.tsv")):
+        raise pgcore.db.ReferenceDataUnavailable(
+            pgcore.db._WITHHELD.format(module="pgmlst") +
+            "\nThe scheme itself is public and can be downloaded from\n"
+            + SOURCE + "\n")
+
+
 def _profiles():
     with open(os.path.join(_DATA, "profiles.tsv")) as fh:
         return list(csv.DictReader(fh, delimiter="\t"))
@@ -186,6 +195,7 @@ def analyze(query, *, min_identity=90.0, min_coverage=95.0, threads=4, min_loci_
     exact-match requirement for assigning a deposited allele number. Returns a
     pgcore.Result, with the call also on result.ST and result.profile.
     """
+    _require_scheme()
     if not os.path.exists(query):
         raise FileNotFoundError(query)
 

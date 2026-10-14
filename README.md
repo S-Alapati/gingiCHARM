@@ -38,18 +38,33 @@ fimtyping  my_isolate.fna
 
 ## What it does
 
-| Module | Question it answers |
-|---|---|
-| `pgvfdb` | which virulence factors does this genome carry? |
-| `fimtyping` | what is the fimA fimbrial type (I, Ib, II–V)? |
-| `mfatyping` | what is the minor-fimbriae operon profile (mfa1/2/3/4/5)? |
-| `ragtyping` | what is the rag type (rag-1 to rag-4)? |
-| `kantigen` | what is the capsular K-antigen serotype? |
-| `pgfunc` | what functional category does each gene fall into? |
-| `pgmlst` | what is the PubMLST seven-locus sequence type? |
+| Module | Question it answers | Reference data in this release |
+|---|---|---|
+| `pgfunc` | what functional category does each gene fall into? | **included** |
+| `pgvfdb` | which virulence factors does this genome carry? | withheld |
+| `fimtyping` | what is the fimA fimbrial type (I, Ib, II–V)? | withheld |
+| `mfatyping` | what is the minor-fimbriae operon profile (mfa1/2/3/4/5)? | withheld |
+| `ragtyping` | what is the rag type (rag-1 to rag-4)? | withheld |
+| `kantigen` | what is the capsular K-antigen serotype? | withheld |
+| `pgmlst` | what is the PubMLST seven-locus sequence type? | withheld |
 
-Every module reads the same bundled database — 3,001 curated records, plus the
-PubMLST allele set used by `pgmlst`. Nothing extra to download.
+### What this release carries
+
+This repository ships the core-genome backbone only: 2,616 gene families with
+their functional categories, sequences and BLAST indexes. That is the whole of
+what `pgfunc` needs, and `pgfunc` runs from a clone with nothing extra to
+download.
+
+The curated typing panels, the virulence-factor reference set and the bundled
+PubMLST scheme are **held back pending publication** of the work describing
+them. The code for those modules is complete and present here, and will run
+unchanged once the panels are in place; run one without them and it exits with
+a message saying so rather than returning an empty result. The PubMLST scheme
+itself is public and can be obtained from
+<https://pubmlst.org/organisms/porphyromonas-gingivalis>.
+
+Requests for the reference data, and notice of its release, go through this
+repository.
 
 ## Install
 
@@ -106,6 +121,9 @@ Opens on <http://127.0.0.1:5057>. Upload one or many genomes, tick the modules
 you want, browse the results and download them as TSV.
 
 ## What is in the database
+
+The table below describes the full curated database. Only the core-genome
+backbone is distributed here; see "What this release carries" above.
 
 Built from five complete *P. gingivalis* genomes — ATCC 33277, W83, TDC60,
 A7436 and AJW4 — re-annotated with Bakta and clustered with MMseqs2 at 80 %

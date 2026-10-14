@@ -6,6 +6,34 @@ carries is given too, so the two can be checked against each other.
 
 ---
 
+## 2026-10-14 — Public release carries the core-genome backbone only
+
+The reference data for the typing modules was removed from the distribution
+and from the repository history, pending publication of the work that
+describes it. What remains is the core-genome backbone: 2,616 gene families
+with their functional categories, sequences and BLAST indexes, which is what
+`pgfunc` requires and the basis of the published functional-category analysis.
+
+Removed: the VF_allele, VF_screen, typing_fimA, typing_mfa*, typing_rag* and
+kantigen records from `Pg_unified_annotation.tsv` and from both sequence
+files, 3,001 records to 2,616; the bundled PubMLST scheme in
+`src/pgmlst/data/`; and the PubMLST working dumps in `data/pubmlst_source/`
+and `pg_pubMLST_data/`. Both BLAST indexes were rebuilt from the reduced
+sequence files. Rebuilding also cleared 390 KGEN protein records left in
+`Pg_unified_prot.fasta` by the October K-antigen rebuild, which the nucleotide
+file and the annotation table had already dropped.
+
+No module code was removed. `pgcore.db.require_records` raises
+`ReferenceDataUnavailable` when a module's panel is absent, so each of the six
+withheld modules exits with an explanation instead of returning an empty
+result. `pgmlst` checks for its profile table the same way.
+
+The history was rewritten so the removed files are not retrievable from
+earlier commits. Commit hashes therefore differ from any clone taken before
+this date.
+
+---
+
 ## 2026-10-03 — Panel audit
 
 Each typing panel was checked against the published reference sequences

@@ -38,6 +38,8 @@ pgcore = [
     "data/blast_db/*",
     "data/sequences/*",
 ]
+# pgmlst ships no data in the public release; the scheme is read from
+# src/pgmlst/data/ when present locally.
 pgmlst = [
     "data/*.fas",
     "data/profiles.tsv",

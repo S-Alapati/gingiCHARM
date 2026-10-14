@@ -30,3 +30,9 @@ Thumbs.db
 .idea/
 .vscode/
 *.swp
+
+# Reference data withheld pending publication. The modules read these paths
+# when the panels are present locally; they must not be committed.
+src/pgmlst/data/
+data/pubmlst_source/
+pg_pubMLST_data/

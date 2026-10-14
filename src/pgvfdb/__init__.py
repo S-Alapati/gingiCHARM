@@ -22,6 +22,7 @@ def analyze(query, *, min_identity=80.0, min_coverage=70.0, evalue=1e-5,
     proteins (amino acid) in FASTA format. Returns a pgcore.Result with one
     row per virulence factor detected.
     """
+    pgcore.db.require_records("VF_screen", "VF_allele", module="pgvfdb")
     hits = pgcore.screen(query, ("VF_screen", "VF_allele"),
                          min_identity=min_identity, min_coverage=min_coverage,
                          evalue=evalue, threads=threads)

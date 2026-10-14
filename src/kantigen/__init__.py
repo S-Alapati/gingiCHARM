@@ -31,6 +31,7 @@ def analyze(query, *, min_identity=80.0, min_coverage=40.0, evalue=1e-20,
     # fragment separately would reject every genuine match, so hits are
     # collected at a permissive per-fragment setting and aggregated per
     # reference before the identity and coverage thresholds are applied.
+    pgcore.db.require_records("kantigen_region", "kantigen_gene", module="kantigen")
     hits = pgcore.screen(query, ("kantigen_region", "kantigen_gene"),
                          require_nucleotide=True, min_identity=min_identity,
                          min_coverage=1.0, evalue=evalue, threads=threads)

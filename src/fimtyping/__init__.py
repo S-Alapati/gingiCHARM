@@ -92,6 +92,7 @@ def analyze(query, *, min_identity=60.0, min_coverage=50.0, evalue=1e-10,
     user can judge how strong the match is. Returns a pgcore.Result, with the
     type also on result.fimA_type.
     """
+    pgcore.db.require_records("typing_fimA", module="fimtyping")
     hits = pgcore.screen(query, ("typing_fimA",), require_nucleotide=True,
                          min_identity=min_identity, min_coverage=min_coverage,
                          evalue=evalue, threads=threads)
