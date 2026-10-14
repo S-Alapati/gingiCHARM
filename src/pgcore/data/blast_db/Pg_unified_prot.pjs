@@ -1,0 +1,22 @@
+{
+  "version": "1.2",
+  "dbname": "Pg_unified_prot",
+  "dbtype": "Protein",
+  "db-version": 5,
+  "description": "Pg_unified_prot",
+  "number-of-letters": 832691,
+  "number-of-sequences": 2616,
+  "last-updated": "2026-10-14T21:13:00",
+  "number-of-volumes": 1,
+  "bytes-total": 1262715,
+  "bytes-to-cache": 856340,
+  "files": [
+    "Pg_unified_prot.pdb",
+    "Pg_unified_prot.phr",
+    "Pg_unified_prot.pin",
+    "Pg_unified_prot.pot",
+    "Pg_unified_prot.psq",
+    "Pg_unified_prot.ptf",
+    "Pg_unified_prot.pto"
+  ]
+}
