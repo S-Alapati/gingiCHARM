@@ -41,12 +41,12 @@ fimtyping  my_isolate.fna
 | Module | Question it answers | Reference data in this release |
 |---|---|---|
 | `pgfunc` | what functional category does each gene fall into? | **included** |
-| `pgvfdb` | which virulence factors does this genome carry? | withheld |
-| `fimtyping` | what is the fimA fimbrial type (I, Ib, II–V)? | withheld |
-| `mfatyping` | what is the minor-fimbriae operon profile (mfa1/2/3/4/5)? | withheld |
-| `ragtyping` | what is the rag type (rag-1 to rag-4)? | withheld |
-| `kantigen` | what is the capsular K-antigen serotype? | withheld |
-| `pgmlst` | what is the PubMLST seven-locus sequence type? | withheld |
+| `pgvfdb` | which virulence factors does this genome carry? | Work in progress |
+| `fimtyping` | what is the fimA fimbrial type (I, Ib, II–V)? | Work in progress |
+| `mfatyping` | what is the minor-fimbriae operon profile (mfa1/2/3/4/5) | Work in progress |
+| `ragtyping` | what is the rag type (rag-1 to rag-4)? | Work in progress |
+| `kantigen` | what is the capsular K-antigen serotype? | Work in progress |
+| `pgmlst` | what is the PubMLST seven-locus sequence type? | Work in progress |
 
 ### What this release carries
 
@@ -138,10 +138,8 @@ schemes.
 | mfa operon | mfa1: 53 / 70A / 70B · mfa2–4: 53 / 70 · mfa5: A1 A2 B C D E | — |
 | rag | rag-1, rag-2, rag-3, rag-4 | — |
 | K-antigen | K1, K3, K4, K6, K− | K2, K5, K7 |
-| MLST | 210 of the 220 defined profiles, 241 alleles | 10 profiles not bundled |
+| MLST | 210 of the 220 defined profiles, 241 alleles | - |
 
-K2, K5 and K7 are missing because no capsular sequence has ever been deposited
-for their reference strains (HG184, HG1690, 34-4).
 
 The MLST module carries the PubMLST seven-locus scheme. Thirty-two sequence
 types and seven alleles recovered from public RefSeq assemblies were returned
